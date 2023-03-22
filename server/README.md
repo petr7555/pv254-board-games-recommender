@@ -1,5 +1,6 @@
 ## How to run:
 
+- download [data](https://www.kaggle.com/datasets/threnjen/board-games-database-from-boardgamegeek) and unzip it to `data` folder
 - install dependencies: `poetry install`
 - run server: `uvicorn app.main:app --reload`
 
