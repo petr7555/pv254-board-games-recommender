@@ -1,4 +1,4 @@
-# Board games recommender system
+# 🎲 Board games recommender system
 
 ## Team
 
