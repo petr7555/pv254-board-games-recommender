@@ -32,8 +32,13 @@
 		- average rating per category
 			- ![TODO](images/avg_rating_per_category.png)
 		- number of ratings per category
-		- ![histogram](images/ratings_values_histogram.png) of values of ratings
-		- histogram of number of ratings per user
+			-
+		- values of ratings:
+			- ![histogram](images/ratings_values_histogram.png)
+			- average rating = 7.13
+		- number of ratings per user
+			- ![histogram](images/ratings_per_user_histogram.png)
+			- average number of ratings per user = 46.05
 		- density of ratings matrix
 	- data cleaning/preprocessing:
 		- multiple ratings of the same game by some users - duplicates removed, only latest rating kept (ratings don't have timestamps, so we assumed file user_ratings.csv is ordered chronologically and kept the last occurence of Username-BGGId pair in the file)
