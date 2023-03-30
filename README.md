@@ -20,7 +20,7 @@
 - specific aspects of the domain
 	- TODO
 - specific data with some basic analysis (value distributions etc.)
-	- data: https://www.kaggle.com/datasets/threnjen/board-games-database-from-boardgamegeek?select=user_ratings.csv
+	- ![dataset](https://www.kaggle.com/datasets/threnjen/board-games-database-from-boardgamegeek?select=user_ratings.csv):
 		- relevant columns:
 			- games
 				- ImagePath - Image http:// path
@@ -38,7 +38,10 @@
 			- average rating = 7.13
 		- number of ratings per user
 			- ![histogram](images/ratings_per_user_histogram.png)
-			- average number of ratings per user = 46.05
+			- average number of ratings per user = 46.05 (median = 12)
+			- maximum number of ratings by user = 6493
+			- 411 374 distinct users rated at least 1 game
+			- 19.3% of users (79 296) rated only 1 game
 		- density of ratings matrix
 	- data cleaning/preprocessing:
 		- multiple ratings of the same game by some users - duplicates removed, only latest rating kept (ratings don't have timestamps, so we assumed file user_ratings.csv is ordered chronologically and kept the last occurence of Username-BGGId pair in the file)
