@@ -30,16 +30,12 @@
 				- Username - User giving rating
 	- analysis:
 		- 21925 different games, 217 themes, 10 categories (only 10 033 games (45.8%) belong to some category)
-		- average rating per category
-			- ![barplot](images/average_rating_by_subcategory_barplot.png)
-		- number of ratings per category
-			- ![barplot](images/number_of_ratings_by_subcategory_barplot.png)
-		- values of ratings:
-			- ![histogram](images/ratings_values_histogram.png)
+		- ![barplot](images/average_rating_by_subcategory_barplot.png)
+		- ![barplot](images/number_of_ratings_by_subcategory_barplot.png)
+		- ![histogram](images/ratings_values_histogram.png)
 			- average rating = 7.13
 			- 18 909 528 user ratings of distinct games
-		- number of ratings per user
-			- ![histogram](images/ratings_per_user_histogram.png)
+		- ![histogram](images/ratings_per_user_histogram.png)
 			- average number of ratings per user = 46.05 (median = 12)
 			- maximum number of ratings by user = 6493
 			- 411 374 distinct users rated at least 1 game
