@@ -20,7 +20,7 @@
 - specific aspects of the domain
 	- TODO
 - specific data with some basic analysis (value distributions etc.)
-	- ![dataset](https://www.kaggle.com/datasets/threnjen/board-games-database-from-boardgamegeek?select=user_ratings.csv):
+	- [dataset](https://www.kaggle.com/datasets/threnjen/board-games-database-from-boardgamegeek?select=user_ratings.csv):
 		- relevant columns:
 			- games
 				- ImagePath - Image http:// path
