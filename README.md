@@ -37,7 +37,7 @@
 			- 18 909 528 user ratings of distinct games
 		- ![histogram](images/ratings_per_user_histogram.png)
 			- average number of ratings per user = 46.05 (median = 12)
-			- maximum number of ratings by user = 6493
+			- maximum number of ratings by user = 6 493
 			- 411 374 distinct users rated at least 1 game
 			- 19.3% of users (79 296) rated only 1 game
 		- density of ratings matrix = 0.0021
