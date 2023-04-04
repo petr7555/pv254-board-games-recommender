@@ -13,8 +13,8 @@
 	- recommendation board games to users who like to play board games and want to try new ones
 - usage
 	- website visitor rates 10 games and gets paged recommendations sorted from the most relevant
-	- we are considering showing the recommendation reasons as well (e.g. "recommended to you because you rated \[other
-	  game\] 9/10"), but we are not sure if it is possible
+	- on each page there will be 5 recommendations from each algorithm randomly interleaved
+	- for each recommendation there will be a button to reveal the algorithm used
 - hypothetical business model
 	- referral links / eshop
 - specific aspects of the domain
@@ -44,21 +44,28 @@
 	- data cleaning/preprocessing:
 		- multiple ratings of the same game by some users - duplicates removed, only latest rating kept (ratings don't have timestamps, so we assumed file user_ratings.csv is ordered chronologically and kept the last occurence of Username-BGGId pair in the file) -> 32 687 rows removed, 0.017%
 - specific proposal for algorithms that you want to implement
-	- memory based CF (Pearson correlation coefficient)
-	- model based CF (gradient descent)
+		- remove users with less than 10 ratings
+		- remove games with less than 10 ratings
+	- memory based CF (Pearson correlation coefficient, item-based for easier interpretation of results) - Jakub Kraus
+	- model based CF (gradient descent) - Michal Salášek
+	- content based (TF-IDF) - Matěj Bukáček
+	- possibly another content based
 - implementation of some naive baseline
-	- most rated games
-	- top-rated games
-	- random games
+	- for CF:
+		- global average rating
+	- for content based:
+		- most rated games
+		- top-rated games
+		- random games
 - basic idea of evaluation approach
+	- 
 	- technical:
 		- data will be split into 80% and 20%
 			- at the very end, once we choose the best model, we will use the 20% of data for final evaluation
 			- 80% will be used for training
 				- it will be split into 80% and 20% using 5-fold cross-validation
 					- for models that require validation set (to stop the training) this 80 % will be split again into
-					  80%
-					  and 20%
+					  80% and 20%
 		- used metric will be RMSE
 	- by real users’ happiness:
 		- we will give our system to real users and collect their feedback
