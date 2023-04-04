@@ -42,10 +42,10 @@
 			- 19.3% of users (79 296) rated only 1 game
 		- density of ratings matrix = 0.0021 (0.21%)
 	- data cleaning/preprocessing:
-		- multiple ratings of the same game by some users - duplicates removed, only latest rating kept (ratings don't have timestamps, so we assumed file user_ratings.csv is ordered chronologically and kept the last occurence of Username-BGGId pair in the file) -> 32 687 rows removed, 0.017%
-- specific proposal for algorithms that you want to implement
+		- multiple ratings of the same game by some users - duplicates removed, only the latest rating kept (ratings don't have timestamps, so we assumed file `user_ratings.csv` is ordered chronologically and kept only the last occurence of Username-BGGId pair in the file) -> 32 687 rows removed, 0.17%
 		- remove users with less than 10 ratings
 		- remove games with less than 10 ratings
+- specific proposal for algorithms that you want to implement
 	- memory based CF (Pearson correlation coefficient, item-based for easier interpretation of results) - Jakub Kraus
 	- model based CF (gradient descent) - Michal Salášek
 	- content based (TF-IDF) - Matěj Bukáček
