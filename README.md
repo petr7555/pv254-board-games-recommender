@@ -29,7 +29,7 @@
 				- Rating - Raw rating given by user
 				- Username - User giving rating
 	- analysis:
-		- 21925 different games, 217 themes, 10 categories (only 10 033 games (45.8%) belong to some category)
+		- 21 925 different games, 217 themes, 10 subcategories (only 10 033 games (45.8%) belong to some subcategory)
 		- ![barplot](images/average_rating_by_subcategory_barplot.png)
 		- ![barplot](images/number_of_ratings_by_subcategory_barplot.png)
 		- ![histogram](images/ratings_values_histogram.png)
