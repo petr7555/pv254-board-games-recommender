@@ -40,7 +40,7 @@
 			- maximum number of ratings by user = 6 493
 			- 411 374 distinct users rated at least 1 game
 			- 19.3% of users (79 296) rated only 1 game
-		- density of ratings matrix = 0.0021
+		- density of ratings matrix = 0.0021 (0.21%)
 	- data cleaning/preprocessing:
 		- multiple ratings of the same game by some users - duplicates removed, only latest rating kept (ratings don't have timestamps, so we assumed file user_ratings.csv is ordered chronologically and kept the last occurence of Username-BGGId pair in the file) -> 32 687 rows removed, 0.017%
 - specific proposal for algorithms that you want to implement
