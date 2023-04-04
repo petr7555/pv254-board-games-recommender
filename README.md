@@ -58,14 +58,13 @@
 		- top-rated games
 		- random games
 - basic idea of evaluation approach
-	- 
-	- technical:
+	- because we are doing a prototype project, we will focus more on the manual evaluation and less on the technical evaluation
+	- technical (only for CF):
 		- data will be split into 80% and 20%
 			- at the very end, once we choose the best model, we will use the 20% of data for final evaluation
 			- 80% will be used for training
 				- it will be split into 80% and 20% using 5-fold cross-validation
-					- for models that require validation set (to stop the training) this 80 % will be split again into
-					  80% and 20%
+					- for models that require validation set (to stop the training) this 80 % will be split again into 80% and 20%
 		- used metric will be RMSE
 	- by real users’ happiness:
 		- we will give our system to real users and collect their feedback
