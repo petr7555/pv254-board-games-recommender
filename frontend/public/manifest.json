@@ -1,0 +1,23 @@
+{
+    "name": "Board games recommender",
+    "short_name": "Board games recommender",
+    "description": "Get the best board game recommendations based on your preferences.",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "id": "/",
+    "start_url": "/",
+    "scope": "/",
+    "theme_color": "#ffa000",
+    "background_color": "#ffa000",
+    "display": "standalone"
+}
