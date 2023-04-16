@@ -10,9 +10,10 @@ def top_rated(page: int):
     returns PAGE_SIZE items sorted by average rating (page indexing starts with 0)
     """
     # change later to keep sorted dataframe in memory (global constant?) instead of loading it each time
-    DATA_PATH = '../../../data/user_ratings.csv'
+    DATA_PATH = '../../data/user_ratings_cleaned.csv'
     user_ratings = pd.read_csv(DATA_PATH)
-    avg_ratings = user_ratings.groupby('BGGId')['rating'].mean().reset_index()
+
+    avg_ratings = user_ratings.groupby('BGGId')['Rating'].mean().reset_index()
 
     # later just import as global constant
     PAGE_SIZE = 10  # number of items per page
@@ -20,10 +21,9 @@ def top_rated(page: int):
     end_index = start_index + PAGE_SIZE
 
     # Sort the dataframe by rating and return the relevant page of data
-    sorted_ratings = avg_ratings.sort_values('rating', ascending=False)
+    sorted_ratings = avg_ratings.sort_values('Rating', ascending=False)
 
-    # TODO return just BGGId
-    top_items = sorted_ratings.iloc[start_index:end_index].to_dict('records')
+    top_items = sorted_ratings.iloc[start_index:end_index][['BGGId']].to_dict('records')
     return top_items
 
 
@@ -33,16 +33,16 @@ def random_items(page: int):
     returns PAGE_SIZE random items (page indexing starts with 0)
     """
     # change later to keep dataframe in memory (global constant?) instead of loading it each time
-    DATA_PATH = '../../../data/games.csv'
+    DATA_PATH = '../../data/games_cleaned.csv'
     games = pd.read_csv(DATA_PATH)
 
     PAGE_SIZE = 10  # number of items per page
 
-    # Get a random sample of rows from the dataframe and return the relevant page of data
-    # TODO make it so it does not return same items (shuffle whole dataset once on start?)
-    sample = games.sample(n=PAGE_SIZE)
-    # TODO return just BGGId
+    # Get a random sample of rows from the dataframe
+    sample = games[['BGGId']].sample(n=PAGE_SIZE).to_dict('records')
+
     return sample
+
 
 @app.get("/most_rated/{page}")
 def most_rated(page: int):
@@ -50,9 +50,9 @@ def most_rated(page: int):
     returns PAGE_SIZE items sorted by number of rating (page indexing starts with 0)
     """
     # change later to keep dataframe in memory (global constant?) instead of loading it each time
-    DATA_PATH = '../../../data/user_ratings.csv'
+    DATA_PATH = '../../data/user_ratings_cleaned.csv'
     user_ratings = pd.read_csv(DATA_PATH)
-    avg_ratings = user_ratings.groupby('BGGId')['rating'].count().reset_index()
+    avg_ratings = user_ratings.groupby('BGGId')['Rating'].count().reset_index()
 
     # later just import as global constant
     PAGE_SIZE = 10  # number of items per page
@@ -60,8 +60,7 @@ def most_rated(page: int):
     end_index = start_index + PAGE_SIZE
 
     # Sort the dataframe by rating and return the relevant page of data
-    sorted_ratings = avg_ratings.sort_values('rating', ascending=False)
+    sorted_ratings = avg_ratings.sort_values('Rating', ascending=False)
 
-    # TODO return just BGGId
-    top_items = sorted_ratings.iloc[start_index:end_index].to_dict('records')
+    top_items = sorted_ratings.iloc[start_index:end_index][['BGGId']].to_dict('records')
     return top_items
