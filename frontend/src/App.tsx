@@ -1,6 +1,8 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HomePage from './components/HomePage';
+import theme from './utils/theme';
+import { ThemeProvider } from '@mui/system';
 
 const router = createBrowserRouter([
   {
@@ -14,7 +16,9 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => (
-  <RouterProvider router={router}/>
+  <ThemeProvider theme={theme}>
+    <RouterProvider router={router}/>
+  </ThemeProvider>
 );
 
 export default App;
