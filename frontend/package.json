@@ -6,6 +6,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "lint": "eslint src --ext .ts,.tsx --fix",
+    "lint:fix": "npm run lint --fix",
     "eject": "react-scripts eject"
   },
   "dependencies": {
