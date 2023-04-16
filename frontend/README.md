@@ -1,5 +1,8 @@
 # Board games recommender frontend
 
+See the app deployed [here](https://pv254-board-games-recommender.vercel.app/).
+The application is a PWA, so you can install it on your phone.
+
 ## How to run
 - `npm install`
 - `npm start`
@@ -10,6 +13,7 @@
 - Project has been generated with `npx create-react-app frontend --template cra-template-pwa-typescript`.
 - Icons have been generated using https://realfavicongenerator.net/.
 - Meta tags have been generated using https://metatags.io/.
+- The app is automatically deployed using Vercel (including PR previews).
 
 ## Credits
 - Favicon: <a href="https://www.flaticon.com/free-icons/dice" title="dice icons">Dice icons created by smashingstocks - Flaticon</a>.
