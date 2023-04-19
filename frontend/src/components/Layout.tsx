@@ -17,12 +17,9 @@ const Layout: FC<Props> = ({  children }) => {
       <Container
         maxWidth="lg"
         component="main"
-        // TODO
-        // sx={{
-        //   pt: 10,
-        //   pb: 10,
-        //   gap: 2,
-        // }}
+        sx={{
+          pb: 10,
+        }}
       >
         {children}
       </Container>

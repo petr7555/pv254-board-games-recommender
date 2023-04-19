@@ -1,13 +1,33 @@
-import { rest } from 'msw';
+import { rest, RestRequest } from 'msw';
+import Game from '../types/game';
+import bestGamesByRank from './bestGamesByRank.json';
+import RecommendationsRequest from '../types/RecommendationsRequest';
+import RecommendationsResponse from '../types/RecommendationsResponse';
+
+const getPagedGamesFromRequest = async (allGames: Game[], request: RestRequest): Promise<RecommendationsResponse> => {
+  const { offset, limit }: RecommendationsRequest = await request.json();
+  const games = allGames.slice(offset, offset + limit);
+  const totalNumberOfGames = allGames.length;
+  return { games, totalNumberOfGames };
+};
 
 const handlers = [
-  rest.post('*/image', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(
-      {
-        id: '52179-B0169RSNPG',
-        image: 'https://m.media-amazon.com/images/I/41UcPfrmzVL._SL500_.jpg',
-      }
-    ));
+  rest.post('*/recommendations/top-rated', async (req, res, ctx) => {
+    const response = await getPagedGamesFromRequest(bestGamesByRank, req);
+
+    return res(ctx.status(200), ctx.json(response));
+  }),
+  
+  rest.post('*/recommendations/most-rated', async (req, res, ctx) => {
+    const response = await getPagedGamesFromRequest(bestGamesByRank, req);
+
+    return res(ctx.status(400), ctx.json(response));
+  }),
+  
+  rest.post('*/recommendations/random', async (req, res, ctx) => {
+    const response = await getPagedGamesFromRequest(bestGamesByRank, req);
+
+    return res(ctx.delay(10000), ctx.status(200), ctx.json(response));
   }),
 ];
 
