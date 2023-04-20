@@ -20,6 +20,8 @@ const minWidth = 250;
 const cardHeight = 500;
 
 
+const getAmazonSearchUrl = (name: string) => `https://www.amazon.com/s?k=${name}`;
+
 const GameCard: FC<Props> = ({ game }) => {
   if (!game) {
     return (
@@ -45,7 +47,7 @@ const GameCard: FC<Props> = ({ game }) => {
           </Typography>
           <Typography variant="body1" color="text.secondary">
             Rating: {Math.round(game.avgRating * 10) / 10} / 10
-          </Typography>     
+          </Typography>
           <Typography variant="body1" color="text.secondary">
             Difficulty: {Math.round(game.difficulty * 10) / 10} / 5
           </Typography>
@@ -58,6 +60,8 @@ const GameCard: FC<Props> = ({ game }) => {
       <CardActions sx={{ justifyContent: 'flex-end' }}>
         <Button size="small" variant="outlined">Details</Button>
         <Button size="small" variant="outlined">Rate</Button>
+        <Button size="small" variant="outlined"
+                href={getAmazonSearchUrl(game.name)} target={'_blank'} sx={{ ml: 1 }}>Buy</Button>
       </CardActions>
     </Card>
   );
