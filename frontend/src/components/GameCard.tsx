@@ -25,7 +25,7 @@ const getAmazonSearchUrl = (name: string) => `https://www.amazon.com/s?k=${name}
 const GameCard: FC<Props> = ({ game }) => {
   if (!game) {
     return (
-      <Skeleton variant="rectangular" width={minWidth} height={cardHeight}/>
+      <Skeleton variant="rectangular" sx={{minWidth}} height={cardHeight}/>
     );
   }
 

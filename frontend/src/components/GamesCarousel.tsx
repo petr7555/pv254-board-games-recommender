@@ -15,10 +15,10 @@ type Props = {
 
 const numberOfGamesPerFetch = 10;
 
-const fetchGames = async (url: string, offset: number) => {
+const fetchGames = async (url: string, offset: number, limit: number) => {
   const response = axios.post<RecommendationsResponse>(url, {
     offset,
-    limit: 1000,
+    limit,
   });
   const { data } = await response;
   return data;
@@ -31,14 +31,14 @@ const GamesCarousel: FC<Props> = ({ title, url }) => {
   const [loading, setLoading] = useState(true);
 
   const [games, setGames] = useState<Game[]>([]);
-  // const [totalNumberOfGames, setTotalNumberOfGames] = useState(0);
+  const [totalNumberOfGames, setTotalNumberOfGames] = useState(0);
 
   const [carouselOffset, setCarouselOffset] = useState(0);
 
   useEffect(() => {
-    fetchGames(url, 0).then((data) => {
+    fetchGames(url, 0, numberOfGamesPerFetch).then((data) => {
       setGames(data.games);
-      // setTotalNumberOfGames(data.totalNumberOfGames);
+      setTotalNumberOfGames(data.totalNumberOfGames);
     }).catch((err) => {
       setError(err.message);
     }).finally(() => setLoading(false));
@@ -53,29 +53,27 @@ const GamesCarousel: FC<Props> = ({ title, url }) => {
   }, 1);
 
   const isFirstPage = carouselOffset === 0;
-  const isLastPage = carouselOffset + numberOfGamesPerPage >= games.length;
-
-  // const numberOfFetchedGames = games.length;
-  // const fetchedAllGames = numberOfFetchedGames >= totalNumberOfGames;
+  const isLastPage = carouselOffset + numberOfGamesPerPage >= totalNumberOfGames;
 
   const showPrevPage = () => {
     setCarouselOffset(Math.max(carouselOffset - numberOfGamesPerPage, 0));
   };
 
   const showNextPage = () => {
-    setCarouselOffset(Math.min(carouselOffset + numberOfGamesPerPage, games.length - numberOfGamesPerPage));
-
-    // const needsToFetchMoreGames = !fetchedAllGames && numberOfFetchedGames >= games.length;
-    // if (isLastPage) {
-    //   setLoading(true);
-    //   fetchGames(url, currentPage * numberOfGamesPerPage).then((data) => {
-    //     setGames([...games, ...data.games]);
-    //     setTotalNumberOfGames(data.totalNumberOfGames);
-    //   }).catch(setError)
-    //     .finally(() => setLoading(false));
-    //
-    //   setCurrentPage(currentPage + 1);
-    // }
+    const nextOffset = Math.min(carouselOffset + numberOfGamesPerPage, totalNumberOfGames - numberOfGamesPerPage);
+    const needsToFetchMore = nextOffset + numberOfGamesPerPage > games.length;
+    const canFetchMore = games.length < totalNumberOfGames;
+    if (needsToFetchMore && canFetchMore) {
+      setLoading(true);
+      fetchGames(url, games.length, numberOfGamesPerFetch).then((data) => {
+        setGames([...games, ...data.games]);
+        setCarouselOffset(nextOffset);
+      }).catch((err) => {
+        setError(err.message);
+      }).finally(() => setLoading(false));
+    } else {
+      setCarouselOffset(nextOffset);
+    }
   };
 
   const currentGames = games.slice(carouselOffset, carouselOffset + numberOfGamesPerPage);
@@ -85,7 +83,7 @@ const GamesCarousel: FC<Props> = ({ title, url }) => {
       <h1>{title}</h1>
       {error && <Alert severity="error">{error}</Alert>}
       {!error && (
-        <Stack spacing={2} direction="row" alignItems="center" width={"100%"} justifyContent="center">
+        <Stack spacing={2} direction="row" alignItems="center" width={'100%'} justifyContent="center">
           <IconButton size="large" onClick={showPrevPage} disabled={isFirstPage}>
             <ArrowBack/>
           </IconButton>
@@ -97,7 +95,7 @@ const GamesCarousel: FC<Props> = ({ title, url }) => {
             <GameCard key={game.id} game={game}/>
           ))}
           <Box sx={{ flexGrow: 1 }}/>
-          <IconButton size="large" onClick={showNextPage} disabled={isLastPage}>
+          <IconButton size="large" onClick={showNextPage} disabled={isLastPage || loading}>
             <ArrowForward/>
           </IconButton>
         </Stack>
