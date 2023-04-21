@@ -1,6 +1,6 @@
 import { AppBar, Tab, Tabs } from '@mui/material';
 import React, { FC, SyntheticEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const pages = [
   {
@@ -14,7 +14,9 @@ const pages = [
 ];
 
 const NavigationBar: FC = () => {
-  const [selectedTab, setSelectedTab] = useState(0);
+  const location = useLocation();
+  
+  const [selectedTab, setSelectedTab] = useState(pages.findIndex(({ path }) => path === location.pathname));
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setSelectedTab(newValue);
