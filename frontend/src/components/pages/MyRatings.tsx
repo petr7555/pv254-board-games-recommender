@@ -13,6 +13,9 @@ import RateGamesDialog from '../RateGamesDialog';
 const MyRatings: FC = () => {
   usePageTitle('My ratings');
 
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(3);
+  
   const [searchTerm, setSearchTerm] = useState('');
 
   const ratings = useLiveQuery(() => db.ratings.orderBy('updatedAt').reverse().toArray()) ?? [];
@@ -86,11 +89,19 @@ const MyRatings: FC = () => {
       <DataGrid
         rows={filteredRatings}
         columns={columns}
-        rowHeight={200}
+        rowHeight={150}
         disableColumnMenu={true}
         disableRowSelectionOnClick={true}
         getRowId={(row) => row.gameId}
-        // TODO set rows per page
+        pageSizeOptions={[3, 5, 10]}
+        paginationModel={{
+          page,
+          pageSize,
+        }}
+        onPaginationModelChange={(params) => {
+          setPage(params.page);
+          setPageSize(params.pageSize);
+        }}
       />
     </Stack>
   );
