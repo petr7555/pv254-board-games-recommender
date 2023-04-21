@@ -1,3 +1,7 @@
+# Board games recommender server
+
+The server is deployed at [https://pv254-board-games-recommender-server.onrender.com](https://pv254-board-games-recommender-server.onrender.com).
+
 ## How to run:
 
 - download [data](https://www.kaggle.com/datasets/threnjen/board-games-database-from-boardgamegeek) and unzip it to `data` folder
