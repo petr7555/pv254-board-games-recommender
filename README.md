@@ -51,9 +51,9 @@
 	- content based (TF-IDF) - Matěj Bukáček
 	- possibly another content based
 - implementation of some naive baseline
-	- for CF:
+	- for CF (prediction is one number):
 		- global average rating
-	- for content based:
+	- for content based (prediction is a list of games):
 		- most rated games
 		- top-rated games
 		- random games
