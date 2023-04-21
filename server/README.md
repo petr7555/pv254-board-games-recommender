@@ -1,4 +1,6 @@
-The server is running at [https://pv254-board-games-recommender-server.onrender.com](https://pv254-board-games-recommender-server.onrender.com).
+# Board games recommender server
+
+The server is deployed at [https://pv254-board-games-recommender-server.onrender.com](https://pv254-board-games-recommender-server.onrender.com).
 
 ## How to run:
 
