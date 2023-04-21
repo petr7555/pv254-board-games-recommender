@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC } from 'react';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
@@ -8,15 +8,15 @@ type Props = {
   setSearchTerm: (searchTerm: string) => void;
 };
 
-const SearchBox: FC<Props> = ({searchTerm, setSearchTerm}) => {
+const SearchBox: FC<Props> = ({ searchTerm, setSearchTerm }) => {
   const resetSearchTerm = () => {
     setSearchTerm('');
   };
-  
+
   const handleSearchTermChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
-  
+
   return (
     <TextField
       label="Search by name"

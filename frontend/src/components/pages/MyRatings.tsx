@@ -8,6 +8,7 @@ import Nonselectable from '../Nonselectable';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import SearchBox from '../SearchBox';
 import RatingsResetDialog from '../RatingsResetDialog';
+import AddRatingDialog from '../AddRatingDialog';
 
 const columns: GridColDef[] = [
   {
@@ -47,25 +48,38 @@ const MyRatings: FC = () => {
   const ratingsWithIds = ratings.map((rating) => ({ id: rating.gameId, ...rating }));
   const filteredRatings = ratingsWithIds.filter((rating) => rating.game.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const openDialog = () => {
-    setDialogOpen(true);
+  const [resetDialogOpen, setResetDialogOpen] = useState(false);
+  const openResetDialog = () => {
+    setResetDialogOpen(true);
   };
-  const closeDialog = () => {
-    setDialogOpen(false);
+  const closeResetDialog = () => {
+    setResetDialogOpen(false);
+  };
+
+  const [addRatingDialogOpen, setAddRatingDialogOpen] = useState(false);
+  const openAddRatingDialog = () => {
+    setAddRatingDialogOpen(true);
+  };
+  const closeAddRatingDialog = () => {
+    setAddRatingDialogOpen(false);
   };
 
   return (
     <Stack spacing={2} sx={{ pt: 3 }}>
       <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
-      <Button variant={'contained'} sx={{ alignSelf: 'flex-end' }} onClick={openDialog}>Reset ratings</Button>
-      <RatingsResetDialog open={dialogOpen} onClose={closeDialog}/>
+      <Stack direction={'row'} sx={{ justifyContent: 'space-between' }}>
+        <Button variant={'contained'} onClick={openAddRatingDialog}>Rate games</Button>
+        <Button variant={'contained'} onClick={openResetDialog}>Reset ratings</Button>
+      </Stack>
+      <AddRatingDialog open={addRatingDialogOpen} onClose={closeAddRatingDialog}/>
+      <RatingsResetDialog open={resetDialogOpen} onClose={closeResetDialog}/>
       <DataGrid
         rows={filteredRatings}
         columns={columns}
         rowHeight={200}
         disableColumnMenu={true}
         disableRowSelectionOnClick={true}
+        // TODO set rows per page
       />
     </Stack>
   );

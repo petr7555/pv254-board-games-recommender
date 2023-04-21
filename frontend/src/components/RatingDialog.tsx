@@ -19,7 +19,7 @@ const RatingDialog: FC<Props> = ({ game, open, onClose }) => {
   useEffect(() => {
     setNewRatingValue(defaultRatingValue);
   }, [defaultRatingValue]);
-  
+
   const handleCancel = () => {
     onClose();
     setNewRatingValue(defaultRatingValue);
@@ -35,7 +35,7 @@ const RatingDialog: FC<Props> = ({ game, open, onClose }) => {
       updatedAt: new Date(),
     });
   };
-  
+
   const onRatingChange = (event: ChangeEvent<{}>, newValue: number | null) => {
     if (newValue !== null) {
       setNewRatingValue(newValue);

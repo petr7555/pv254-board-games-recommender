@@ -1,7 +1,6 @@
-type RecommendationsRequest = {
-  offset: number;
-  limit: number;
-};
+import PagedRequest from './PagedRequest';
+
+type RecommendationsRequest = PagedRequest;
 
 export default RecommendationsRequest;
   

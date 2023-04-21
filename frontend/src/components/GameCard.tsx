@@ -24,11 +24,9 @@ const getAmazonSearchUrl = (name: string) => `https://www.amazon.com/s?k=${name}
 
 const GameCard: FC<Props> = ({ game }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-
   const openDialog = () => {
     setDialogOpen(true);
   };
-  
   const closeDialog = () => {
     setDialogOpen(false);
   };
@@ -77,7 +75,6 @@ const GameCard: FC<Props> = ({ game }) => {
         </CardActions>
       </Card>
     </>
-
   );
 };
 

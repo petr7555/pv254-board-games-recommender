@@ -8,23 +8,25 @@ import ArrowForward from '@mui/icons-material/ArrowForwardIos';
 import { useWindowSize } from 'usehooks-ts';
 import RecommendationsResponse from '../types/RecommendationsResponse';
 
-type Props = {
-  title: string;
-  url: string;
-}
-
 const numberOfGamesPerFetch = 10;
 
-const fetchGames = async (url: string, offset: number, limit: number) => {
+const fetchGames = async (url: string, offset: number, limit: number, additionalBodyParams?: Record<string, unknown>) => {
   const response = axios.post<RecommendationsResponse>(url, {
     offset,
     limit,
+    ...additionalBodyParams,
   });
   const { data } = await response;
   return data;
 };
 
-const GamesCarousel: FC<Props> = ({ title, url }) => {
+type Props = {
+  title: string;
+  url: string;
+  additionalBodyParams?: Record<string, unknown>;
+}
+
+const GamesCarousel: FC<Props> = ({ title, url, additionalBodyParams }) => {
   const { width } = useWindowSize();
 
   const [error, setError] = useState<string>();
@@ -36,13 +38,13 @@ const GamesCarousel: FC<Props> = ({ title, url }) => {
   const [carouselOffset, setCarouselOffset] = useState(0);
 
   useEffect(() => {
-    fetchGames(url, 0, numberOfGamesPerFetch).then((data) => {
+    fetchGames(url, 0, numberOfGamesPerFetch, additionalBodyParams).then((data) => {
       setGames(data.games);
       setTotalNumberOfGames(data.totalNumberOfGames);
     }).catch((err) => {
       setError(err.message);
     }).finally(() => setLoading(false));
-  }, [setError, url]);
+  }, [additionalBodyParams, setError, url]);
 
   const breakpoints = [700, 960, 1280, 1500];
   const numberOfGamesPerPage = breakpoints.reduce((acc, breakpoint) => {
@@ -65,7 +67,7 @@ const GamesCarousel: FC<Props> = ({ title, url }) => {
     const canFetchMore = games.length < totalNumberOfGames;
     if (needsToFetchMore && canFetchMore) {
       setLoading(true);
-      fetchGames(url, games.length, numberOfGamesPerFetch).then((data) => {
+      fetchGames(url, games.length, numberOfGamesPerFetch, additionalBodyParams).then((data) => {
         setGames([...games, ...data.games]);
         setCarouselOffset(nextOffset);
       }).catch((err) => {
