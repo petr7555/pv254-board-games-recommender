@@ -1,5 +1,7 @@
 # 🎲 Board games recommender system
 
+See the app deployed [here](https://pv254-board-games-recommender.vercel.app/).
+
 ## Team
 
 - Matěj Bukáček
