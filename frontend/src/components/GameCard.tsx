@@ -19,10 +19,13 @@ type Props = {
 
 const minWidth = 250;
 const cardHeight = 500;
+const imageHeight = 140;
 
 const getAmazonSearchUrl = (name: string) => `https://www.amazon.com/s?k=${name}`;
 
 const GameCard: FC<Props> = ({ game }) => {
+  const [showImage, setShowImage] = useState(false);
+  
   const [dialogOpen, setDialogOpen] = useState(false);
   const openDialog = () => {
     setDialogOpen(true);
@@ -41,12 +44,16 @@ const GameCard: FC<Props> = ({ game }) => {
     <>
       <RatingDialog game={game} open={dialogOpen} onClose={closeDialog}/>
       <Card sx={{ minWidth, minHeight: cardHeight, display: 'flex', flexDirection: 'column' }}>
+        {!showImage && <Skeleton variant="rectangular" height={imageHeight}/>}
         <CardMedia
           component="img"
           alt={game.name}
-          height="140"
+          height={imageHeight}
           image={game.image}
+          sx={{display: showImage ? 'block' : 'none'}}
+          onLoad={() => setShowImage(true)}
         />
+        <Box sx={{ flexGrow: 1 }}/>
         <CardContent>
           <Stack direction="column" spacing={1}>
             <Typography gutterBottom variant="h5" component="div">
