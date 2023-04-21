@@ -99,6 +99,9 @@ const GamesCarousel: FC<Props> = ({ title, url, searchTerm }) => {
           {loading && [...Array(numberOfGamesPerPage)].map((_, index) => (
             <GameCard key={index}/>
           ))}
+          {!loading && currentGames.length === 0 && (
+            <Typography variant="h6">No games found</Typography>
+          )}
           {!loading && currentGames.map((game) => (
             <GameCard key={game.id} game={game}/>
           ))}
