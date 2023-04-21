@@ -1,11 +1,11 @@
 import { rest } from 'msw';
 import Game from '../types/game';
 import bestGamesByRank from './bestGamesByRank.json';
-import PagedResponse from '../types/RecommendationsResponse';
 import GamesSearchRequest from '../types/GamesSearchRequest';
 import PagedRequest from '../types/PagedRequest';
+import GamesResponse from '../types/GamesResponse';
 
-const getPagedGames = async (allGames: Game[], offset: number, limit: number): Promise<PagedResponse> => {
+const getPagedGames = async (allGames: Game[], offset: number, limit: number): Promise<GamesResponse> => {
   const games = allGames.slice(offset, offset + limit);
   const totalNumberOfGames = allGames.length;
   return { games, totalNumberOfGames };

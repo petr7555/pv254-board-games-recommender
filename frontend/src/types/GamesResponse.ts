@@ -1,9 +1,9 @@
 import Game from './game';
 
-type RecommendationsResponse = {
+type GamesResponse = {
   games: Game[];
   totalNumberOfGames: number;
 };
 
-export default RecommendationsResponse;
+export default GamesResponse;
   

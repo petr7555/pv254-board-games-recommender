@@ -6,12 +6,12 @@ import Game from '../types/game';
 import ArrowBack from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForward from '@mui/icons-material/ArrowForwardIos';
 import { useWindowSize } from 'usehooks-ts';
-import RecommendationsResponse from '../types/RecommendationsResponse';
+import GamesResponse from '../types/GamesResponse';
 
 const numberOfGamesPerFetch = 10;
 
 const fetchGames = async (url: string, offset: number, limit: number, additionalBodyParams?: Record<string, unknown>) => {
-  const response = axios.post<RecommendationsResponse>(url, {
+  const response = axios.post<GamesResponse>(url, {
     offset,
     limit,
     ...additionalBodyParams,
