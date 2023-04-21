@@ -1,7 +1,7 @@
 import Dexie, { Table } from 'dexie';
 import Game from '../types/game';
 
-export interface Rating {
+export interface GameRating {
   gameId: number;
   game: Game;
   value: number;
@@ -9,7 +9,7 @@ export interface Rating {
 }
 
 export class MySubClassedDexie extends Dexie {
-  ratings!: Table<Rating>;
+  ratings!: Table<GameRating>;
 
   constructor() {
     super('ratingDb');
