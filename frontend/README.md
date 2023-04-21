@@ -1,6 +1,7 @@
 # Board games recommender frontend
 
 The frontend is deployed at [https://pv254-board-games-recommender.vercel.app/](https://pv254-board-games-recommender.vercel.app/).
+
 The application is a PWA, so you can install it on your phone.
 
 ## How to run
