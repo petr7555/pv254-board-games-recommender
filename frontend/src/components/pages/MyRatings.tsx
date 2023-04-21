@@ -10,6 +10,7 @@ import SearchBox from '../SearchBox';
 import RatingsResetDialog from '../RatingsResetDialog';
 import RateGamesDialog from '../RateGamesDialog';
 import GameRating from '../../types/GameRating';
+import { maxRatingValue } from '../../utils/constants';
 
 const MyRatings: FC = () => {
   usePageTitle('My ratings');
@@ -67,7 +68,7 @@ const MyRatings: FC = () => {
       field: 'value',
       flex: 1,
       renderHeader: () => <Nonselectable>Your rating</Nonselectable>,
-      renderCell: (params) => <Rating value={params.row.value} precision={0.5}
+      renderCell: (params) => <Rating value={params.row.value} max={maxRatingValue}
                                       onChange={(event, value) => onRatingChange(event, value, params.row)}/>
     },
     {

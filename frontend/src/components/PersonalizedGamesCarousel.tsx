@@ -21,7 +21,7 @@ const PersonalizedGamesCarousel: FC = () => {
     );
   }
 
-  return <GamesCarousel title={title} url={'/recommendations/personalized'}/>;
+  return <GamesCarousel title={title} url={'/recommendations/personalized'} ratings={ratings}/>;
 };
 
 export default PersonalizedGamesCarousel;

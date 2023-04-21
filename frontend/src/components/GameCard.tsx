@@ -75,7 +75,6 @@ const GameCard: FC<Props> = ({ game }) => {
         </CardContent>
         <Box sx={{ flexGrow: 1 }}/>
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          {/*<Button size="small" variant="outlined">Details</Button>*/}
           <Button size="small" variant="outlined"
                   href={getAmazonSearchUrl(game.name)} target={'_blank'} sx={{ mr: 1 }}>Buy</Button>
           <Button size="small" variant="outlined" onClick={openDialog}>Rate</Button>

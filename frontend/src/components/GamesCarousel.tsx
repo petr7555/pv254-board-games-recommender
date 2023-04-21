@@ -8,14 +8,22 @@ import ArrowForward from '@mui/icons-material/ArrowForwardIos';
 import { useWindowSize } from 'usehooks-ts';
 import GamesResponse from '../types/GamesResponse';
 import Typography from '@mui/material/Typography';
+import GameRatingSimple from '../types/GameRatingSimple';
 
 const numberOfGamesPerFetch = 10;
 
-const fetchGames = async (url: string, offset: number, limit: number, searchTerm?: string) => {
+const fetchGames = async ({
+                            url,
+                            offset,
+                            limit,
+                            searchTerm,
+                            ratings,
+                          }: { url: string, offset: number, limit: number, searchTerm?: string, ratings?: GameRatingSimple[] }) => {
   const response = axios.post<GamesResponse>(url, {
     offset,
     limit,
-    searchTerm,
+    ...(searchTerm && { searchTerm }),
+    ...(ratings && { ratings }),
   });
   const { data } = await response;
   return data;
@@ -25,9 +33,10 @@ type Props = {
   title?: string;
   url: string;
   searchTerm?: string;
+  ratings?: GameRatingSimple[];
 }
 
-const GamesCarousel: FC<Props> = ({ title, url, searchTerm }) => {
+const GamesCarousel: FC<Props> = ({ title, url, searchTerm, ratings }) => {
   const { width } = useWindowSize();
 
   const [error, setError] = useState<string>();
@@ -44,13 +53,14 @@ const GamesCarousel: FC<Props> = ({ title, url, searchTerm }) => {
 
   useEffect(() => {
     setLoading(true);
-    fetchGames(url, 0, numberOfGamesPerFetch, searchTerm).then((data) => {
-      setGames(data.games);
-      setTotalNumberOfGames(data.totalNumberOfGames);
-    }).catch((err) => {
+    fetchGames({ url, offset: 0, limit: numberOfGamesPerFetch, searchTerm, ratings })
+      .then((data) => {
+        setGames(data.games);
+        setTotalNumberOfGames(data.totalNumberOfGames);
+      }).catch((err) => {
       setError(err.message);
     }).finally(() => setLoading(false));
-  }, [searchTerm, setError, url]);
+  }, [ratings, searchTerm, setError, url]);
 
   const breakpoints = [700, 960, 1280, 1500];
   const numberOfGamesPerPage = breakpoints.reduce((acc, breakpoint) => {
@@ -73,10 +83,11 @@ const GamesCarousel: FC<Props> = ({ title, url, searchTerm }) => {
     const canFetchMore = games.length < totalNumberOfGames;
     if (needsToFetchMore && canFetchMore) {
       setLoading(true);
-      fetchGames(url, games.length, numberOfGamesPerFetch, searchTerm).then((data) => {
-        setGames([...games, ...data.games]);
-        setCarouselOffset(nextOffset);
-      }).catch((err) => {
+      fetchGames({ url, offset: games.length, limit: numberOfGamesPerFetch, searchTerm, ratings })
+        .then((data) => {
+          setGames([...games, ...data.games]);
+          setCarouselOffset(nextOffset);
+        }).catch((err) => {
         setError(err.message);
       }).finally(() => setLoading(false));
     } else {

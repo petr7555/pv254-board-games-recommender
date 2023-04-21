@@ -4,6 +4,7 @@ import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import Game from '../types/Game';
 import { db } from '../db/db';
 import { useLiveQuery } from 'dexie-react-hooks';
+import { maxRatingValue } from '../utils/constants';
 
 type Props = {
   game: Game;
@@ -51,8 +52,8 @@ const RatingDialog: FC<Props> = ({ game, open, onClose }) => {
         </DialogContentText>
         <Rating
           value={newRatingValue}
-          precision={0.5}
           onChange={onRatingChange}
+          max={maxRatingValue}
         />
       </DialogContent>
       <DialogActions>
