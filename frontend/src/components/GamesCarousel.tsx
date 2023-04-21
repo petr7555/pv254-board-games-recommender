@@ -11,11 +11,11 @@ import Typography from '@mui/material/Typography';
 
 const numberOfGamesPerFetch = 10;
 
-const fetchGames = async (url: string, offset: number, limit: number, additionalBodyParams?: Record<string, unknown>) => {
+const fetchGames = async (url: string, offset: number, limit: number, searchTerm?: string) => {
   const response = axios.post<GamesResponse>(url, {
     offset,
     limit,
-    ...additionalBodyParams,
+    searchTerm,
   });
   const { data } = await response;
   return data;
@@ -24,10 +24,10 @@ const fetchGames = async (url: string, offset: number, limit: number, additional
 type Props = {
   title?: string;
   url: string;
-  additionalBodyParams?: Record<string, unknown>;
+  searchTerm?: string;
 }
 
-const GamesCarousel: FC<Props> = ({ title, url, additionalBodyParams }) => {
+const GamesCarousel: FC<Props> = ({ title, url, searchTerm }) => {
   const { width } = useWindowSize();
 
   const [error, setError] = useState<string>();
@@ -37,22 +37,20 @@ const GamesCarousel: FC<Props> = ({ title, url, additionalBodyParams }) => {
   const [totalNumberOfGames, setTotalNumberOfGames] = useState(0);
 
   const [carouselOffset, setCarouselOffset] = useState(0);
-  
-  // TODO reset when search term changes but not on recommendations carousels
-  // TODO debounce search
-  // TODO typing "bh" fast shows "b" results
-  // useEffect(() => {
-  //   setCarouselOffset(0);
-  // }, [additionalBodyParams]);
 
   useEffect(() => {
-    fetchGames(url, 0, numberOfGamesPerFetch, additionalBodyParams).then((data) => {
+    setCarouselOffset(0);
+  }, [searchTerm]);
+
+  useEffect(() => {
+    setLoading(true);
+    fetchGames(url, 0, numberOfGamesPerFetch, searchTerm).then((data) => {
       setGames(data.games);
       setTotalNumberOfGames(data.totalNumberOfGames);
     }).catch((err) => {
       setError(err.message);
     }).finally(() => setLoading(false));
-  }, [additionalBodyParams, setError, url]);
+  }, [searchTerm, setError, url]);
 
   const breakpoints = [700, 960, 1280, 1500];
   const numberOfGamesPerPage = breakpoints.reduce((acc, breakpoint) => {
@@ -75,7 +73,7 @@ const GamesCarousel: FC<Props> = ({ title, url, additionalBodyParams }) => {
     const canFetchMore = games.length < totalNumberOfGames;
     if (needsToFetchMore && canFetchMore) {
       setLoading(true);
-      fetchGames(url, games.length, numberOfGamesPerFetch, additionalBodyParams).then((data) => {
+      fetchGames(url, games.length, numberOfGamesPerFetch, searchTerm).then((data) => {
         setGames([...games, ...data.games]);
         setCarouselOffset(nextOffset);
       }).catch((err) => {
@@ -89,7 +87,7 @@ const GamesCarousel: FC<Props> = ({ title, url, additionalBodyParams }) => {
   const currentGames = games.slice(carouselOffset, carouselOffset + numberOfGamesPerPage);
 
   return (
-    <Stack spacing={2} direction="column" alignItems="center" sx={{ mt: 4}}>
+    <Stack spacing={2} direction="column" alignItems="center" sx={{ mt: 4 }}>
       {title && <Typography variant="h4">{title}</Typography>}
       {error && <Alert severity="error">{error}</Alert>}
       {!error && (

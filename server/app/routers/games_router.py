@@ -1,4 +1,7 @@
+from typing import Any
+
 from fastapi import APIRouter
+from pydantic import BaseModel
 
 from app.types.shared_types import PagedRequest, GamesResponse
 from app.utils.get_games_by_name import get_games_by_name
@@ -9,13 +12,10 @@ router = APIRouter(
 )
 
 
-class GamesSearchRequest(PagedRequest):
+class GamesSearchRequest(BaseModel):
     searchTerm: str
-
-
-@router.get("/")
-def health_check() -> str:
-    return "Games OK"
+    offset: int
+    limit: int
 
 
 @router.post("/")

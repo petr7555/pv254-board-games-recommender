@@ -40,7 +40,7 @@ const GameCard: FC<Props> = ({ game }) => {
   return (
     <>
       <RatingDialog game={game} open={dialogOpen} onClose={closeDialog}/>
-      <Card sx={{ minWidth, height: cardHeight, display: 'flex', flexDirection: 'column' }}>
+      <Card sx={{ minWidth, minHeight: cardHeight, display: 'flex', flexDirection: 'column' }}>
         <CardMedia
           component="img"
           alt={game.name}

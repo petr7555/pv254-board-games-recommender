@@ -12,7 +12,7 @@ type Props = {
 
 const RateGamesDialog: FC<Props> = ({ open, onClose }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const debouncedSearchTerm = useDebounce<string>(searchTerm, 500)
+  const debouncedSearchTerm = useDebounce(searchTerm, 500)
 
   const handleClose = () => {
     onClose();
@@ -35,7 +35,7 @@ const RateGamesDialog: FC<Props> = ({ open, onClose }) => {
       <DialogContent>
         <Box sx={{ height: 10 }}/>
         <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
-        <GamesCarousel url={'/games'} additionalBodyParams={{ searchTerm }}/>
+        <GamesCarousel url={'/games'} searchTerm={debouncedSearchTerm}/>
       </DialogContent>
     </Dialog>
   );
