@@ -13,9 +13,6 @@ const getPagedGames = async (allGames: Game[], offset: number, limit: number): P
 
 const handlers = [
   rest.post('*/recommendations/top-rated', async (req, res, ctx) => {
-    const indexedGames = bestGamesByRank.map((game, idx) => {
-      return { ...game, name: idx.toString() };
-    });
     const { offset, limit }: PagedRequest = await req.json();
     const response = await getPagedGames(bestGamesByRank, offset, limit);
 

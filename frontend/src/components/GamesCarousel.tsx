@@ -7,6 +7,7 @@ import ArrowBack from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForward from '@mui/icons-material/ArrowForwardIos';
 import { useWindowSize } from 'usehooks-ts';
 import GamesResponse from '../types/GamesResponse';
+import Typography from '@mui/material/Typography';
 
 const numberOfGamesPerFetch = 10;
 
@@ -21,7 +22,7 @@ const fetchGames = async (url: string, offset: number, limit: number, additional
 };
 
 type Props = {
-  title: string;
+  title?: string;
   url: string;
   additionalBodyParams?: Record<string, unknown>;
 }
@@ -36,6 +37,13 @@ const GamesCarousel: FC<Props> = ({ title, url, additionalBodyParams }) => {
   const [totalNumberOfGames, setTotalNumberOfGames] = useState(0);
 
   const [carouselOffset, setCarouselOffset] = useState(0);
+  
+  // TODO reset when search term changes but not on recommendations carousels
+  // TODO debounce search
+  // TODO typing "bh" fast shows "b" results
+  // useEffect(() => {
+  //   setCarouselOffset(0);
+  // }, [additionalBodyParams]);
 
   useEffect(() => {
     fetchGames(url, 0, numberOfGamesPerFetch, additionalBodyParams).then((data) => {
@@ -81,8 +89,8 @@ const GamesCarousel: FC<Props> = ({ title, url, additionalBodyParams }) => {
   const currentGames = games.slice(carouselOffset, carouselOffset + numberOfGamesPerPage);
 
   return (
-    <Stack spacing={2} direction="column" alignItems="center">
-      <h1>{title}</h1>
+    <Stack spacing={2} direction="column" alignItems="center" sx={{ mt: 4}}>
+      {title && <Typography variant="h4">{title}</Typography>}
       {error && <Alert severity="error">{error}</Alert>}
       {!error && (
         <Stack spacing={2} direction="row" alignItems="center" width={'100%'} justifyContent="center">

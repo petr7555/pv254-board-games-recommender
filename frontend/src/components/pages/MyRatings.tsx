@@ -8,7 +8,7 @@ import Nonselectable from '../Nonselectable';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import SearchBox from '../SearchBox';
 import RatingsResetDialog from '../RatingsResetDialog';
-import AddRatingDialog from '../AddRatingDialog';
+import RateGamesDialog from '../RateGamesDialog';
 
 const MyRatings: FC = () => {
   usePageTitle('My ratings');
@@ -26,12 +26,12 @@ const MyRatings: FC = () => {
     setResetDialogOpen(false);
   };
 
-  const [addRatingDialogOpen, setAddRatingDialogOpen] = useState(false);
-  const openAddRatingDialog = () => {
-    setAddRatingDialogOpen(true);
+  const [rateGamesDialogOpen, setRateGamesDialogOpen] = useState(false);
+  const openRateGamesDialog = () => {
+    setRateGamesDialogOpen(true);
   };
-  const closeAddRatingDialog = () => {
-    setAddRatingDialogOpen(false);
+  const closeRateGamesDialog = () => {
+    setRateGamesDialogOpen(false);
   };
 
   const onRatingChange = (event: ChangeEvent<{}>, newValue: number | null, rating: GameRating) => {
@@ -78,10 +78,10 @@ const MyRatings: FC = () => {
     <Stack spacing={2} sx={{ pt: 3 }}>
       <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
       <Stack direction={'row'} sx={{ justifyContent: 'space-between' }}>
-        <Button variant={'contained'} onClick={openAddRatingDialog}>Rate games</Button>
+        <Button variant={'contained'} onClick={openRateGamesDialog}>Rate games</Button>
         <Button variant={'contained'} onClick={openResetDialog}>Reset ratings</Button>
       </Stack>
-      <AddRatingDialog open={addRatingDialogOpen} onClose={closeAddRatingDialog}/>
+      <RateGamesDialog open={rateGamesDialogOpen} onClose={closeRateGamesDialog}/>
       <RatingsResetDialog open={resetDialogOpen} onClose={closeResetDialog}/>
       <DataGrid
         rows={filteredRatings}
