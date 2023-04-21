@@ -1,12 +1,6 @@
 import Dexie, { Table } from 'dexie';
-import Game from '../types/game';
+import GameRating from '../types/GameRating';
 
-export interface GameRating {
-  gameId: number;
-  game: Game;
-  value: number;
-  updatedAt: Date;
-}
 
 export class MySubClassedDexie extends Dexie {
   ratings!: Table<GameRating>;

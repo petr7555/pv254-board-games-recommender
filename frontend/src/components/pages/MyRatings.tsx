@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useState } from 'react';
 import usePageTitle from '../../hooks/usePageTitle';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { db, GameRating } from '../../db/db';
+import { db } from '../../db/db';
 import { Rating, Stack } from '@mui/material';
 import Button from '@mui/material/Button';
 import Nonselectable from '../Nonselectable';
@@ -9,6 +9,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import SearchBox from '../SearchBox';
 import RatingsResetDialog from '../RatingsResetDialog';
 import RateGamesDialog from '../RateGamesDialog';
+import GameRating from '../../types/GameRating';
 
 const MyRatings: FC = () => {
   usePageTitle('My ratings');

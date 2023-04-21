@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Game from '../types/game';
+import Game from '../types/Game';
 import { Box, Skeleton, Stack } from '@mui/material';
 import { ReactComponent as MinAgeIcon } from '../icons/minAgeIcon.svg';
 import { ReactComponent as NumPlayersIcon } from '../icons/numPlayersIcon.svg';

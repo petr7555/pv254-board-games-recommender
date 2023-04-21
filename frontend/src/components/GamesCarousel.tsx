@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Alert, Box, IconButton, Stack } from '@mui/material';
 import GameCard from './GameCard';
-import Game from '../types/game';
+import Game from '../types/Game';
 import ArrowBack from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForward from '@mui/icons-material/ArrowForwardIos';
 import { useWindowSize } from 'usehooks-ts';

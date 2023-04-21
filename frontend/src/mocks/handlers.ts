@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-import Game from '../types/game';
+import Game from '../types/Game';
 import bestGamesByRank from './bestGamesByRank.json';
 import GamesSearchRequest from '../types/GamesSearchRequest';
 import PagedRequest from '../types/PagedRequest';
@@ -27,6 +27,13 @@ const handlers = [
   }),
 
   rest.post('*/recommendations/random', async (req, res, ctx) => {
+    const { offset, limit }: PagedRequest = await req.json();
+    const response = await getPagedGames(bestGamesByRank, offset, limit);
+
+    return res(ctx.status(200), ctx.json(response));
+  }),
+
+  rest.post('*/recommendations/personalized', async (req, res, ctx) => {
     const { offset, limit }: PagedRequest = await req.json();
     const response = await getPagedGames(bestGamesByRank, offset, limit);
 
