@@ -16,7 +16,7 @@ const handlers = [
     const indexedGames = bestGamesByRank.map((game, idx) => {
       return { ...game, name: idx.toString() };
     });
-    const response = await getPagedGamesFromRequest(indexedGames, req);
+    const response = await getPagedGamesFromRequest(bestGamesByRank, req);
 
     return res(ctx.delay(300), ctx.status(200), ctx.json(response));
   }),

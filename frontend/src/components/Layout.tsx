@@ -18,7 +18,7 @@ const Layout: FC<Props> = ({  children }) => {
         maxWidth="lg"
         component="main"
         sx={{
-          pb: 10,
+          pb: 8,
         }}
       >
         {children}

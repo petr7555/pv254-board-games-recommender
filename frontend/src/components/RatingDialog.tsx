@@ -1,8 +1,9 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Rating } from '@mui/material';
 import Button from '@mui/material/Button';
-import React, { FC, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import Game from '../types/game';
-import { useLocalStorage } from 'usehooks-ts';
+import { db } from '../db/db';
+import { useLiveQuery } from 'dexie-react-hooks';
 
 type Props = {
   game: Game;
@@ -11,17 +12,34 @@ type Props = {
 };
 
 const RatingDialog: FC<Props> = ({ game, open, onClose }) => {
-  const [savedRating, setSavedRating] = useLocalStorage<number | null>(`rating-${game?.id}`, null);
-  const [newRating, setNewRating] = useState(savedRating);
+  const savedRating = useLiveQuery(() => db.ratings.get(game.id), [game.id]);
+  const defaultRatingValue = savedRating?.value ?? 0;
+  const [newRatingValue, setNewRatingValue] = useState(defaultRatingValue);
 
+  useEffect(() => {
+    setNewRatingValue(defaultRatingValue);
+  }, [defaultRatingValue]);
+  
   const handleCancel = () => {
     onClose();
-    setNewRating(savedRating);
+    setNewRatingValue(defaultRatingValue);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     onClose();
-    setSavedRating(newRating);
+
+    await db.ratings.put({
+      gameId: game.id,
+      game,
+      value: newRatingValue,
+      updatedAt: new Date(),
+    });
+  };
+  
+  const onRatingChange = (event: ChangeEvent<{}>, newValue: number | null) => {
+    if (newValue !== null) {
+      setNewRatingValue(newValue);
+    }
   };
 
   return (
@@ -32,21 +50,17 @@ const RatingDialog: FC<Props> = ({ game, open, onClose }) => {
           How much did you enjoy {game.name}?
         </DialogContentText>
         <Rating
-          name="rating"
-          value={newRating}
+          value={newRatingValue}
           precision={0.5}
-          onChange={(event, newValue) => {
-            if (newValue !== null) {
-              setNewRating(newValue);
-            }
-          }}
+          onChange={onRatingChange}
         />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel}>Cancel</Button>
         <Button onClick={handleSave} variant={'contained'}>Save</Button>
       </DialogActions>
-    </Dialog>);
+    </Dialog>
+  );
 };
 
 export default RatingDialog;
