@@ -1,8 +1,10 @@
+import { developmentServerUrl, productionServerUrl } from './constants';
+
 const getApiUrl = (): string => {
   if (process.env.NODE_ENV === 'development') {
-    return 'http://127.0.0.1:8000';
+    return developmentServerUrl;
   }
-  return 'https://pv254-board-games-recommender-server.onrender.com';
+  return productionServerUrl;
 };
 
 export default getApiUrl;

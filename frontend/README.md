@@ -10,7 +10,7 @@ The application is a PWA, so you can install it on your phone.
 
 ## Project info
 
-- Primary color: <span style="background-color: #ffa000; color: black">#ffa000</span>.
+- Primary color: <span style="background-color: #ffc107; color: black">#ffc107</span>. Secondary color: <span style="background-color: #ff6f00; color: black">#ff6f00</span>.
 - Project has been generated with `npx create-react-app frontend --template cra-template-pwa-typescript`.
 - Icons have been generated using https://realfavicongenerator.net/.
 - Meta tags have been generated using https://metatags.io/.

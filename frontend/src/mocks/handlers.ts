@@ -11,6 +11,7 @@ const getPagedGames = async (allGames: Game[], offset: number, limit: number): P
   return { games, totalNumberOfGames };
 };
 
+// TODO
 const handlers = [
   rest.post('*/recommendations/top-rated', async (req, res, ctx) => {
     const { offset, limit }: PagedRequest = await req.json();

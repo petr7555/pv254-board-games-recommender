@@ -17,7 +17,7 @@
     "id": "/",
     "start_url": "/",
     "scope": "/",
-    "theme_color": "#ffa000",
-    "background_color": "#ffa000",
+    "theme_color": "#ff6f00",
+    "background_color": "#ff6f00",
     "display": "standalone"
 }
