@@ -8,13 +8,16 @@ import { minRatings, personalizedRecommendationsEndpoint } from '../utils/consta
 const title = 'Personalized';
 
 const PersonalizedGamesCarousel: FC = () => {
-  const ratings = useLiveQuery(() => db.ratings.toArray()) ?? [];
-
+  const dbRatings = useLiveQuery(() => db.ratings.toArray());
+  const dbRatingsLoading = dbRatings === undefined;
+  const ratings = dbRatings ?? [];
+  
   if (ratings.length < minRatings) {
     return (
       <Stack spacing={2} direction="column" alignItems="center" sx={{ mt: 4 }}>
         <Typography variant="h4">{title}</Typography>
-        <Alert severity="warning">Rate at least {minRatings} games to get personalized recommendations</Alert>
+        {dbRatingsLoading && <Alert severity="info">Loading ratings...</Alert>}
+        {!dbRatingsLoading && <Alert severity="warning">Rate at least {minRatings} games to get personalized recommendations</Alert>}
       </Stack>
     );
   }
