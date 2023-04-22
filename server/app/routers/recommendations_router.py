@@ -1,7 +1,6 @@
 import json
 
 from fastapi import APIRouter
-from pydantic import BaseModel
 import random
 
 from app.types.shared_types import PagedRequest, GamesResponse, GameRatingSimple
