@@ -56,8 +56,8 @@ See the app deployed [here](https://pv254-board-games-recommender.vercel.app/).
 	- for CF (prediction is one number):
 		- global average rating
 	- for content based (prediction is a list of games):
+		- top-rated games (by available `Rank:boardgame` property)
 		- most rated games
-		- top-rated games
 		- random games
 - basic idea of evaluation approach
 	- because we are doing a prototype project, we will focus more on the manual evaluation and less on the technical evaluation
