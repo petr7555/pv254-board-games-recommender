@@ -22,10 +22,11 @@ const cardHeight = 500;
 const imageHeight = 140;
 
 const getAmazonSearchUrl = (name: string) => `https://www.amazon.com/s?k=${name}`;
+const getBoardGamesGeekUrl = (id: number) => `https://boardgamegeek.com/boardgame/${id}`;
 
 const GameCard: FC<Props> = ({ game }) => {
   const [showImage, setShowImage] = useState(false);
-  
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const openDialog = () => {
     setDialogOpen(true);
@@ -50,7 +51,7 @@ const GameCard: FC<Props> = ({ game }) => {
           alt={game.name}
           height={imageHeight}
           image={game.image}
-          sx={{display: showImage ? 'block' : 'none'}}
+          sx={{ display: showImage ? 'block' : 'none' }}
           onLoad={() => setShowImage(true)}
         />
         <Box sx={{ flexGrow: 1 }}/>
@@ -76,8 +77,10 @@ const GameCard: FC<Props> = ({ game }) => {
         <Box sx={{ flexGrow: 1 }}/>
         <CardActions sx={{ justifyContent: 'flex-end' }}>
           <Button size="small" variant="outlined"
-                  href={getAmazonSearchUrl(game.name)} target={'_blank'} sx={{ mr: 1 }}>Buy</Button>
-          <Button size="small" variant="outlined" onClick={openDialog}>Rate</Button>
+                  href={getBoardGamesGeekUrl(game.id)} target={'_blank'}>Details</Button>
+          <Button size="small" variant="outlined"
+                  href={getAmazonSearchUrl(game.name)} target={'_blank'}>Buy</Button>
+          <Button size="small" variant="outlined" onClick={openDialog} sx={{ ml: 1 }}>Rate</Button>
         </CardActions>
       </Card>
     </>

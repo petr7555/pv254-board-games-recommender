@@ -22,7 +22,7 @@ const fetchGames = async ({
   const response = axios.post<GamesResponse>(url, {
     offset,
     limit,
-    ...(searchTerm && { searchTerm }),
+    ...(searchTerm !== undefined && { searchTerm }),
     ...(ratings && { ratings }),
   });
   const { data } = await response;

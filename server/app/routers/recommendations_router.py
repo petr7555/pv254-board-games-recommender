@@ -2,6 +2,7 @@ import json
 
 from fastapi import APIRouter
 from pydantic import BaseModel
+import random
 
 from app.types.shared_types import PagedRequest, GamesResponse, GameRatingSimple
 from app.utils.relative_path_from_file import relative_path_from_file
@@ -34,7 +35,7 @@ def get_recommendations_most_rated(request: PagedRequest) -> GamesResponse:
     offset = request.offset
     limit = request.limit
 
-    with open(relative_path_from_file(__file__, "../db/bestGamesByRank.json")) as f:
+    with open(relative_path_from_file(__file__, "../db/gamesOrderedByNumberOfRatings.json")) as f:
         games = json.load(f)
         paged_games = games[offset:offset + limit]
 
@@ -50,12 +51,12 @@ def get_recommendations_random(request: PagedRequest) -> GamesResponse:
     offset = request.offset
     limit = request.limit
 
-    with open(relative_path_from_file(__file__, "../db/bestGamesByRank.json")) as f:
+    with open(relative_path_from_file(__file__, "../db/gamesOrderedByName.json")) as f:
         games = json.load(f)
-        paged_games = games[offset:offset + limit]
+        random_games = random.sample(games, limit)
 
         return {
-            "games": paged_games,
+            "games": random_games,
             "totalNumberOfGames": len(games),
         }
 

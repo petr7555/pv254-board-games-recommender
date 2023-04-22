@@ -7,7 +7,7 @@ const Loader: FC = () => {
 
   return (
     <Backdrop sx={{ color: 'primary.main', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
-      <CircularProgress color="inherit" />
+      <CircularProgress color="inherit"/>
     </Backdrop>
   );
 };

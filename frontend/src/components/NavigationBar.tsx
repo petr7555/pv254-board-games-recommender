@@ -15,7 +15,7 @@ const pages = [
 
 const NavigationBar: FC = () => {
   const location = useLocation();
-  
+
   const [selectedTab, setSelectedTab] = useState(pages.findIndex(({ path }) => path === location.pathname));
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {

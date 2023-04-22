@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 import usePageTitle from '../../hooks/usePageTitle';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../db/db';
@@ -11,16 +11,22 @@ import RatingsResetDialog from '../RatingsResetDialog';
 import RateGamesDialog from '../RateGamesDialog';
 import GameRating from '../../types/GameRating';
 import { maxRatingValue } from '../../utils/constants';
+import Typography from '@mui/material/Typography';
+import ImageWithSkeleton from '../ImageWithSkeleton';
+
+const rowHeight = 150;
 
 const MyRatings: FC = () => {
   usePageTitle('My ratings');
 
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(3);
-  
+
   const [searchTerm, setSearchTerm] = useState('');
 
-  const ratings = useLiveQuery(() => db.ratings.orderBy('updatedAt').reverse().toArray()) ?? [];
+  const dbRatings = useLiveQuery(() => db.ratings.orderBy('updatedAt').reverse().toArray());
+  const dbRatingsLoading = dbRatings === undefined;
+  const ratings = dbRatings ?? [];
   const filteredRatings = ratings.filter((rating) => rating.game.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
   const [resetDialogOpen, setResetDialogOpen] = useState(false);
@@ -61,8 +67,8 @@ const MyRatings: FC = () => {
       flex: 1,
       sortable: false,
       renderHeader: () => <Nonselectable>Image</Nonselectable>,
-      renderCell: (params) => <img src={params.row.game.image} alt={params.row.game.name}
-                                   style={{ objectFit: 'cover', width: '100%', height: '100%' }}/>
+      renderCell: (params) => <ImageWithSkeleton image={params.row.game.image} alt={params.row.game.name}
+                                                 height={rowHeight}/>
     },
     {
       field: 'value',
@@ -81,17 +87,21 @@ const MyRatings: FC = () => {
 
   return (
     <Stack spacing={2} sx={{ pt: 3 }}>
-      <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
+      <SearchBox label={'Search my ratings by name'} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
       <Stack direction={'row'} sx={{ justifyContent: 'space-between' }}>
         <Button variant={'contained'} onClick={openRateGamesDialog}>Rate games</Button>
         <Button variant={'contained'} onClick={openResetDialog}>Reset ratings</Button>
       </Stack>
       <RateGamesDialog open={rateGamesDialogOpen} onClose={closeRateGamesDialog}/>
       <RatingsResetDialog open={resetDialogOpen} onClose={closeResetDialog}/>
-      <DataGrid
+      {!dbRatingsLoading && ratings.length === 0 &&
+        <Typography variant="h6" align={'center'}>Press "Rate games" to get started</Typography>}
+      {ratings.length > 0 && filteredRatings.length === 0 &&
+        <Typography variant="h6" align={'center'}>No ratings found for given search term</Typography>}
+      {filteredRatings.length > 0 && (<DataGrid
         rows={filteredRatings}
         columns={columns}
-        rowHeight={150}
+        rowHeight={rowHeight}
         disableColumnMenu={true}
         disableRowSelectionOnClick={true}
         getRowId={(row) => row.gameId}
@@ -104,7 +114,7 @@ const MyRatings: FC = () => {
           setPage(params.page);
           setPageSize(params.pageSize);
         }}
-      />
+      />)}
     </Stack>
   );
 };

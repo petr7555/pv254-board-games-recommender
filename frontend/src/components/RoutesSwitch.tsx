@@ -5,9 +5,9 @@ import MyRatings from './pages/MyRatings';
 
 const RoutesSwitch: FC = () => (
   <Routes>
-    <Route path="/" element={<Recommendations />} />
-    <Route path="/my-ratings" element={<MyRatings />} />
-    <Route path="*" element={<Navigate replace to="/" />} />
+    <Route path="/" element={<Recommendations/>}/>
+    <Route path="/my-ratings" element={<MyRatings/>}/>
+    <Route path="*" element={<Navigate replace to="/"/>}/>
   </Routes>
 );
 

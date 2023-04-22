@@ -8,12 +8,12 @@ type Props = {
   children: ReactNode;
 };
 
-const Layout: FC<Props> = ({  children }) => {
+const Layout: FC<Props> = ({ children }) => {
   return (
     <>
-      <Loader />
-      <ApiErrorSnackbar />
-      <NavigationBar />
+      <Loader/>
+      <ApiErrorSnackbar/>
+      <NavigationBar/>
       <Container
         maxWidth="lg"
         component="main"

@@ -12,7 +12,7 @@ const RatingsResetDialog: FC<Props> = ({ open, onClose }) => {
   const handleCancel = () => {
     onClose();
   };
-  
+
   const handleSave = () => {
     db.ratings.clear();
     onClose();

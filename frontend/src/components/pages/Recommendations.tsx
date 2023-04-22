@@ -8,10 +8,10 @@ const Recommendations: FC = () => {
 
   return (
     <>
-      <PersonalizedGamesCarousel />
-      <GamesCarousel title={"Top-rated"} url={"/recommendations/top-rated"} />
-      <GamesCarousel title={"Most rated"} url={"/recommendations/most-rated"} />
-      <GamesCarousel title={"Random picks"} url={"/recommendations/random"} />
+      <PersonalizedGamesCarousel/>
+      <GamesCarousel title={'Top-rated'} url={'/recommendations/top-rated'}/>
+      <GamesCarousel title={'Most rated'} url={'/recommendations/most-rated'}/>
+      <GamesCarousel title={'Random picks'} url={'/recommendations/random'}/>
     </>
   );
 };

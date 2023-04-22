@@ -4,11 +4,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 
 type Props = {
+  label: string;
   searchTerm: string;
   setSearchTerm: (searchTerm: string) => void;
 };
 
-const SearchBox: FC<Props> = ({ searchTerm, setSearchTerm }) => {
+const SearchBox: FC<Props> = ({ label, searchTerm, setSearchTerm }) => {
   const resetSearchTerm = () => {
     setSearchTerm('');
   };
@@ -19,7 +20,7 @@ const SearchBox: FC<Props> = ({ searchTerm, setSearchTerm }) => {
 
   return (
     <TextField
-      label="Search by name"
+      label={label}
       fullWidth
       InputProps={{
         startAdornment: (
