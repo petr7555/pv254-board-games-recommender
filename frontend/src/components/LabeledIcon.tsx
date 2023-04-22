@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { ReactComponent } from '*.svg';
-import { Stack } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { Stack, Typography } from '@mui/material';
 
 type Props = {
   icon: typeof ReactComponent;

@@ -1,13 +1,14 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Recommendations from './pages/Recommendations';
 import MyRatings from './pages/MyRatings';
+import { myRatingsPath, recommendationsPath } from '../utils/constants';
 
 const RoutesSwitch: FC = () => (
   <Routes>
-    <Route path="/" element={<Recommendations/>}/>
-    <Route path="/my-ratings" element={<MyRatings/>}/>
-    <Route path="*" element={<Navigate replace to="/"/>}/>
+    <Route path={recommendationsPath} element={<Recommendations/>}/>
+    <Route path={myRatingsPath} element={<MyRatings/>}/>
+    <Route path="*" element={<Navigate replace to={recommendationsPath}/>}/>
   </Routes>
 );
 

@@ -1,28 +1,22 @@
-import React, { FC, useState } from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { FC, useState } from 'react';
 import Game from '../types/Game';
-import { Box, Skeleton, Stack } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Skeleton, Stack, Typography, } from '@mui/material';
 import { ReactComponent as MinAgeIcon } from '../icons/minAgeIcon.svg';
 import { ReactComponent as NumPlayersIcon } from '../icons/numPlayersIcon.svg';
 import { ReactComponent as PlaytimeIcon } from '../icons/playtimeIcon.svg';
 import LabeledIcon from './LabeledIcon';
 import RatingDialog from './RatingDialog';
 
-type Props = {
-  game?: Game;
-};
-
-const minWidth = 250;
+const cardMinWidth = 250;
 const cardHeight = 500;
 const imageHeight = 140;
 
 const getAmazonSearchUrl = (name: string) => `https://www.amazon.com/s?k=${name}`;
 const getBoardGamesGeekUrl = (id: number) => `https://boardgamegeek.com/boardgame/${id}`;
+
+type Props = {
+  game?: Game;
+};
 
 const GameCard: FC<Props> = ({ game }) => {
   const [showImage, setShowImage] = useState(false);
@@ -37,14 +31,14 @@ const GameCard: FC<Props> = ({ game }) => {
 
   if (!game) {
     return (
-      <Skeleton variant="rectangular" sx={{ minWidth }} height={cardHeight}/>
+      <Skeleton variant="rectangular" sx={{ minWidth: cardMinWidth }} height={cardHeight}/>
     );
   }
 
   return (
     <>
       <RatingDialog game={game} open={dialogOpen} onClose={closeDialog}/>
-      <Card sx={{ minWidth, minHeight: cardHeight, display: 'flex', flexDirection: 'column' }}>
+      <Card sx={{ minWidth: cardMinWidth, minHeight: cardHeight, display: 'flex', flexDirection: 'column' }}>
         {!showImage && <Skeleton variant="rectangular" height={imageHeight}/>}
         <CardMedia
           component="img"

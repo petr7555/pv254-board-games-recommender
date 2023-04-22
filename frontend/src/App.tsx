@@ -1,6 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 import theme from './utils/theme';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { ThemeProvider, CssBaseline } from '@mui/material';
 import Layout from './components/Layout';
 import RoutesSwitch from './components/RoutesSwitch';
 

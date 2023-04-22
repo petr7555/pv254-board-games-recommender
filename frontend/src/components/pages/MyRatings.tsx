@@ -1,9 +1,8 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import usePageTitle from '../../hooks/usePageTitle';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../db/db';
-import { Rating, Stack } from '@mui/material';
-import Button from '@mui/material/Button';
+import { Rating, Stack, Button, Typography } from '@mui/material';
 import Nonselectable from '../Nonselectable';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import SearchBox from '../SearchBox';
@@ -11,7 +10,6 @@ import RatingsResetDialog from '../RatingsResetDialog';
 import RateGamesDialog from '../RateGamesDialog';
 import GameRating from '../../types/GameRating';
 import { maxRatingValue } from '../../utils/constants';
-import Typography from '@mui/material/Typography';
 import ImageWithSkeleton from '../ImageWithSkeleton';
 
 const rowHeight = 150;

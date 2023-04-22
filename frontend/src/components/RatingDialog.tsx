@@ -1,6 +1,13 @@
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Rating } from '@mui/material';
-import Button from '@mui/material/Button';
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Rating,
+  Button,
+} from '@mui/material';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import Game from '../types/Game';
 import { db } from '../db/db';
 import { useLiveQuery } from 'dexie-react-hooks';

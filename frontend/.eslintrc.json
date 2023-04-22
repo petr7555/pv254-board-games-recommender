@@ -1,0 +1,31 @@
+{
+  "extends": [
+    "react-app",
+    "react-app/jest"
+  ],
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": [
+              "@mui/material/*",
+              "@mui/icons-material/*"
+            ],
+            "message": "Please import directly from @mui/material."
+          }
+        ],
+        "paths": [
+          {
+            "name": "react",
+            "importNames": [
+              "default"
+            ],
+            "message": "Please use named React imports."
+          }
+        ]
+      }
+    ]
+  }
+}

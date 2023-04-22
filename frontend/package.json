@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --passWithNoTests",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test --passWithNoTests",
     "lint": "eslint src --ext .ts,.tsx --fix",
     "lint:fix": "npm run lint --fix",
     "eject": "react-scripts eject"
@@ -46,12 +46,6 @@
     "workbox-strategies": "^6.5.4",
     "workbox-streams": "^6.5.4"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -65,7 +59,10 @@
     ]
   },
   "devDependencies": {
-    "msw": "^1.2.1"
+    "babel-plugin-direct-import": "^1.0.0",
+    "customize-cra": "^1.0.0",
+    "msw": "^1.2.1",
+    "react-app-rewired": "^2.2.1"
   },
   "msw": {
     "workerDirectory": "public"

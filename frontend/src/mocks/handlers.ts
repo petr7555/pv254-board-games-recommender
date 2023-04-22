@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 import Game from '../types/Game';
-import bestGamesByRank from './bestGamesByRank.json';
+import bestGamesByRank from './data/bestGamesByRank.json';
 import GamesSearchRequest from '../types/GamesSearchRequest';
 import PagedRequest from '../types/PagedRequest';
 import GamesResponse from '../types/GamesResponse';

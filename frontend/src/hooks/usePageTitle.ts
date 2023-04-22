@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
+import { appName } from '../utils/constants';
 
 const usePageTitle = (title: string): void => {
   useEffect(() => {
-    document.title = `${title} | Board games recommender`;
+    document.title = `${title} | ${appName}`;
   }, [title]);
 };
 

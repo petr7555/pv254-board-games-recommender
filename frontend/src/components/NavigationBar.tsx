@@ -1,15 +1,16 @@
 import { AppBar, Tab, Tabs } from '@mui/material';
-import React, { FC, SyntheticEvent, useState } from 'react';
+import { FC, SyntheticEvent, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { myRatingsPath, recommendationsPath } from '../utils/constants';
 
 const pages = [
   {
     name: 'Recommendations',
-    path: '/',
+    path: recommendationsPath,
   },
   {
     name: 'My ratings',
-    path: '/my-ratings',
+    path: myRatingsPath
   },
 ];
 

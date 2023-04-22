@@ -1,7 +1,6 @@
 import { ChangeEvent, FC } from 'react';
+import { Close as CloseIcon, Search as SearchIcon } from '@mui/icons-material';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import CloseIcon from '@mui/icons-material/Close';
 
 type Props = {
   label: string;

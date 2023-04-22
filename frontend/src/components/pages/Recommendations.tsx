@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import usePageTitle from '../../hooks/usePageTitle';
 import GamesCarousel from '../GamesCarousel';
 import PersonalizedGamesCarousel from '../PersonalizedGamesCarousel';
