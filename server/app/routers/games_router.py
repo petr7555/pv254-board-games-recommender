@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from app.types.shared_types import PagedRequest, GamesResponse
 from app.utils.get_games_by_name import get_games_by_name
+from app.utils.get_paged_games import get_paged_games
 
 router = APIRouter(
     prefix="/games",
@@ -19,11 +20,5 @@ def get_games_by_name_route(request: GamesSearchRequest) -> GamesResponse:
     offset = request.offset
     limit = request.limit
 
-    # TODO refactor
     all_matching_games = get_games_by_name(search_term)
-    paged_games = all_matching_games[offset:offset + limit]
-
-    return {
-        "games": paged_games,
-        "totalNumberOfGames": len(all_matching_games),
-    }
+    return get_paged_games(all_matching_games, offset, limit)
