@@ -23,6 +23,7 @@ See the app deployed [here](https://pv254-board-games-recommender.vercel.app/).
 	- TODO
 - specific data with some basic analysis (value distributions etc.)
 	- [dataset](https://www.kaggle.com/datasets/threnjen/board-games-database-from-boardgamegeek?select=user_ratings.csv):
+		- [dataset](https://drive.google.com/file/d/1iy4AZeqso1YpZ4zDyDHhH98HqJGfh92X/view?usp=sharing) after preprocessing
 		- relevant columns:
 			- games
 				- ImagePath - Image http:// path
