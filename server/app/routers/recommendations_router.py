@@ -1,4 +1,5 @@
 import random
+from app.utils.tfidf_related import compute_tfidf_matrix, get_data, get_most_similar
 
 from fastapi import APIRouter
 
@@ -46,6 +47,12 @@ def get_recommendations_random(request: PagedRequest) -> GamesResponse:
 class PersonalizedRecommendationsRequest(PagedRequest):
     ratings: list[GameRatingSimple]
 
+# TODO
+@router.post("/personalized")
+def personalized_recommendations(request: PersonalizedRecommendationsRequest) -> GamesResponse:
+    df, df_conc = get_data()
+    tfidf_matrix = compute_tfidf_matrix(df)
+    return get_most_similar(df_conc, tfidf_matrix, item_rating=None)
 
 # TODO
 @router.post("/personalized")
