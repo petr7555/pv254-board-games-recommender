@@ -24,7 +24,7 @@ def predict_ratings(user_factors, items_factors):
     return pd.DataFrame({'predicted_rating': predicted_ratings}, index=items_factors.index)
 
 
-def get_k_recommendations(k, ratings, user_id=None):
+def get_LF_recommendations(ratings, user_id=None):
 
     # would be better to store id in local storage? (but since we don't update matrix, it doesn't matter?)
     if user_id is None:
@@ -42,7 +42,8 @@ def get_k_recommendations(k, ratings, user_id=None):
 
     user_factors = users_factors.loc[user_id]
     predicted_ratings = predict_ratings(user_factors, items_factors)
-    return predicted_ratings.sort_values('predicted_rating', ascending = False).head(k).index.array
+    # return predicted_ratings.sort_values('predicted_rating', ascending = False).iloc[offset:offset+limit].index.array
+    return predicted_ratings.sort_values('predicted_rating', ascending = False).index.array
 
 
 def update_latent_factors(P, Q, user_id, ratings):
