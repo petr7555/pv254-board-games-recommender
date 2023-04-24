@@ -2,10 +2,11 @@ import random
 
 from fastapi import APIRouter
 
-from app.types.shared_types import PagedRequest, GamesResponse, GameRatingSimple
+from app.types.shared_types import PagedRequest, GamesResponse, GameRatingSimple, Game
 from app.utils.get_paged_games import get_paged_games
 from app.utils.load_games_from_json import load_games_from_json
 from app.utils.relative_path_from_file import relative_path_from_file
+from app.utils.get_latent_factors_recommendations import get_k_recommendations
 
 router = APIRouter(
     prefix="/recommendations",
@@ -56,3 +57,21 @@ def personalized_recommendations(request: PersonalizedRecommendationsRequest) ->
 
     shuffled_games = random.sample(games_ordered_by_name, len(games_ordered_by_name))
     return get_paged_games(shuffled_games, offset, limit)
+
+
+def latent_factors_recommendations(request: PersonalizedRecommendationsRequest, k_recommendations: int=5) -> list[Game]:
+    ratings = request.ratings
+    offset = request.offset
+    limit = request.limit
+
+    recommended_games_ids = get_k_recommendations(k_recommendations, request.ratings)
+    recommended_games = list(filter(lambda x: x['id'] in recommended_games_ids, games_ordered_by_name))
+
+    # just to make sure games are ordered from highest rating to lowest
+    # i.e. if game with ID=123 has the highest rating, game with this ID should be returned first
+    recommended_games_sorted = [
+        next(filter(lambda x: x['id'] == game_id, recommended_games), None) # basically "first()", instead of list(...)[0]
+        for game_id in recommended_games_ids
+    ]
+
+    return recommended_games_sorted
