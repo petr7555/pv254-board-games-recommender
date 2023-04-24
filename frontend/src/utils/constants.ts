@@ -5,6 +5,7 @@ export const personalizedRecommendationsEndpoint = '/recommendations/personalize
 export const topRatedRecommendationsEndpoint = '/recommendations/top-rated';
 export const mostRatedRecommendationsEndpoint = '/recommendations/most-rated';
 export const randomRecommendationsEndpoint = '/recommendations/random';
+export const latentFactorsRecommendationsEndpoint = '/recommendations/latent-factors';
 
 export const appName = 'Board games recommender';
 export const maxRatingValue = 10;

@@ -59,12 +59,13 @@ def personalized_recommendations(request: PersonalizedRecommendationsRequest) ->
     return get_paged_games(shuffled_games, offset, limit)
 
 
-def latent_factors_recommendations(request: PersonalizedRecommendationsRequest, k_recommendations: int=5) -> list[Game]:
+@router.post("/latent-factors")
+def latent_factors_recommendations(request: PersonalizedRecommendationsRequest) -> GamesResponse:
     ratings = request.ratings
     offset = request.offset
     limit = request.limit
 
-    recommended_games_ids = get_k_recommendations(k_recommendations, request.ratings)
+    recommended_games_ids = get_k_recommendations(limit, ratings)
     recommended_games = list(filter(lambda x: x['id'] in recommended_games_ids, games_ordered_by_name))
 
     # just to make sure games are ordered from highest rating to lowest
@@ -73,5 +74,4 @@ def latent_factors_recommendations(request: PersonalizedRecommendationsRequest, 
         next(filter(lambda x: x['id'] == game_id, recommended_games), None) # basically "first()", instead of list(...)[0]
         for game_id in recommended_games_ids
     ]
-
-    return recommended_games_sorted
+    return get_paged_games(recommended_games_sorted, offset, limit)
