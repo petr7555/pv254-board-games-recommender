@@ -17,6 +17,7 @@ games_ordered_by_rank = load_games_from_json(relative_path_from_file(__file__, "
 games_ordered_by_name = load_games_from_json(relative_path_from_file(__file__, "../db/gamesOrderedByName.json"))
 games_ordered_by_number_of_ratings = load_games_from_json(
     relative_path_from_file(__file__, "../db/gamesOrderedByNumberOfRatings.json"))
+games_dict = { game['id'] : game for game in games_ordered_by_name }
 
 
 @router.post("/top-rated")
@@ -64,8 +65,6 @@ def latent_factors_recommendations(request: PersonalizedRecommendationsRequest) 
     ratings = request.ratings
     offset = request.offset
     limit = request.limit
-
-    games_dict = { game['id'] : game for game in games_ordered_by_name }
 
     recommended_games_ids = get_LF_recommendations(ratings)
     recommended_games_sorted = [games_dict[game_id] for game_id in recommended_games_ids]
