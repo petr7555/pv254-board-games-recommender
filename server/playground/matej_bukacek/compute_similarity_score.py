@@ -40,10 +40,6 @@ if __name__ == '__main__':
       # Add the string to the list
       string_dict[idx] += str(string)
 
-  del mechanics
-  del subcategories
-  del themes
-  del games
 
   # remove possible multiple whitespaces
   for idx in string_dict.keys():
@@ -54,7 +50,15 @@ if __name__ == '__main__':
   strings = [value for (id, value) in sorted(string_dict.items(), key=lambda x: x[0])]
   tfidf_matrix = TfidfVectorizer().fit_transform(strings)
 
+  # nedostatek RAM mi zabijel program
+  del mechanics
+  del subcategories
+  del themes
+  del games
   del strings
   del string_dict
 
   similarity_scores = cosine_similarity(tfidf_matrix).astype(np.float32)
+
+  path = relative_path_from_file(__file__, "../..")
+  np.save(f"{path}/app/db/similarity_matrix", similarity_scores)
