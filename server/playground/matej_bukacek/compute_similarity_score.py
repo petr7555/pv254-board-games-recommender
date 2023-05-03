@@ -25,7 +25,9 @@ if __name__ == '__main__':
   for idx, row in games.loc[:, ~games.columns.isin(['BGGId'])].iterrows():
     string_dict[idx] = str(row["Description"]).lower()
     temp = ['_'.join(column_name.split()) + '_' + str(value) for column_name, value in row.items() if value != 0 and column_name!="Description"]
-    string = ' ' + ' '.join(temp) + ' '
+
+    # Combine the column names into a string, place thm into string twice to increase weight when compared to Description
+    string = ' ' + ' '.join(temp) + ' ' + ' '.join(temp) + ' '
     string_dict[idx] += string
 
   for table in [mechanics, subcategories, themes]:
@@ -34,8 +36,8 @@ if __name__ == '__main__':
       # Create a list of column names where the corresponding value is 1
       columns_with_ones = ['_'.join(column_name.split()) for column_name, value in row.items() if value == 1]
       
-      # Combine the column names into a string, with the format "Column1, Column3"
-      string = ' '.join(columns_with_ones) + ' '
+      # Combine the column names into a string, place thm into string twice to increase weight when compared to Description
+      string = ' '.join(columns_with_ones) + ' ' + ' '.join(columns_with_ones) + ' '
       
       # Add the string to the list
       string_dict[idx] += str(string)
