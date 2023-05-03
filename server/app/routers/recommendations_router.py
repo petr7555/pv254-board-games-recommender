@@ -7,6 +7,7 @@ from app.utils.get_paged_games import get_paged_games
 from app.utils.load_games_from_json import load_games_from_json
 from app.utils.relative_path_from_file import relative_path_from_file
 from app.utils.get_latent_factors_recommendations import get_LF_recommendations
+from app.utils.load_latent_factors_matrices import load_item_factors
 
 router = APIRouter(
     prefix="/recommendations",
@@ -18,6 +19,8 @@ games_ordered_by_name = load_games_from_json(relative_path_from_file(__file__, "
 games_ordered_by_number_of_ratings = load_games_from_json(
     relative_path_from_file(__file__, "../db/gamesOrderedByNumberOfRatings.json"))
 games_dict = { game['id'] : game for game in games_ordered_by_name }
+items_factors = load_item_factors()
+
 
 @router.post("/top-rated")
 def get_recommendations_top_rated(request: PagedRequest) -> GamesResponse:
@@ -65,9 +68,7 @@ def latent_factors_recommendations(request: PersonalizedRecommendationsRequest) 
     offset = request.offset
     limit = request.limit
 
-    # TODO: load user/item factors on server start
-
-    recommended_games_ids = get_LF_recommendations(ratings)
+    recommended_games_ids = get_LF_recommendations(ratings, items_factors)
     recommended_games_sorted = [games_dict[game_id] for game_id in recommended_games_ids]
 
     return get_paged_games(recommended_games_sorted, offset, limit)

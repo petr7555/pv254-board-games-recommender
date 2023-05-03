@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from numpy import linalg
 
-from app.utils.load_latent_factors_matrices import load_user_factors, load_item_factors
+from app.utils.load_latent_factors_matrices import load_user_factors
 
 
 def rating_prediction(user_factors, item_factors):
@@ -18,20 +18,17 @@ def predict_ratings(user_factors, items_factors):
     return pd.DataFrame({'predicted_rating': predicted_ratings}, index=items_factors.index)
 
 
-def get_LF_recommendations(ratings, user_id=None):
-
-    # would be better to store id in local storage? (but since we don't update matrix, it doesn't matter?)
-    if user_id is None:
-        user_id = "pv254_random_user"
-        # user_id = "Stirlingmoomoo"  # for k=5 should respond with IDs: [137841, 293671, 66218, 13440, 2103]
-
-    users_factors = load_user_factors()
-    items_factors = load_item_factors()
+def get_LF_recommendations(ratings, items_factors, user_id=None):
     
-    k_latent_factors = get_k_latent_factors(users_factors)
+    k_latent_factors = get_k_latent_factors(items_factors)
 
-    is_new_user = user_id not in users_factors.index
-    user_factors = get_new_user_factors(ratings, k_latent_factors, items_factors) if is_new_user else users_factors.loc[user_id]
+    # since we currently only support new users' predictions, we can avoid loading users factors for no reason
+    user_factors = []
+    if user_id is not None: # and user_id in users_factors.index:
+        # user_factors = users_factors.loc[user_id]
+        pass
+    else:
+        user_factors = get_new_user_factors(ratings, k_latent_factors, items_factors)
 
     predicted_ratings = predict_ratings(user_factors, items_factors)
     return predicted_ratings.sort_values('predicted_rating', ascending = False).index.array
