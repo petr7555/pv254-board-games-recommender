@@ -1,14 +1,8 @@
 import numpy as np
 import pandas as pd
+from numpy import linalg
 
 from app.utils.load_latent_factors_matrices import load_user_factors, load_item_factors
-
-
-# TODO: create constants file 
-k_latent_factors = 3
-n_epochs = 20
-learning_rate = 0.05 # 0.005
-_lambda = 0.2 # 0.02
 
 
 def rating_prediction(user_factors, item_factors):
@@ -33,39 +27,55 @@ def get_LF_recommendations(ratings, user_id=None):
 
     users_factors = load_user_factors()
     items_factors = load_item_factors()
+    
+    k_latent_factors = get_k_latent_factors(users_factors)
 
-    print(f'Q length: {len(items_factors)}')
+    is_new_user = user_id not in users_factors.index
+    user_factors = get_new_user_factors(ratings, k_latent_factors, items_factors) if is_new_user else users_factors.loc[user_id]
 
-    if user_id not in users_factors.index:
-        users_factors.loc[user_id, :] = 3 * np.random.rand(1, k_latent_factors)
-        update_latent_factors(users_factors, items_factors, user_id, ratings) 
-
-    user_factors = users_factors.loc[user_id]
     predicted_ratings = predict_ratings(user_factors, items_factors)
-    # return predicted_ratings.sort_values('predicted_rating', ascending = False).iloc[offset:offset+limit].index.array
     return predicted_ratings.sort_values('predicted_rating', ascending = False).index.array
 
 
-def update_latent_factors(P, Q, user_id, ratings):
-    for epoch in range(n_epochs):
-        for user_rating in ratings:
+# split array (ratings) into groups with "k" items + loop to start to include all elements if necessary
+def split(arr, k):
+    n = len(arr)
+    chunks = len(arr) // k
+    res = [arr[i*k : (i+1)*k] for i in range(chunks)]
+    remainder = n % k
+    if remainder != 0:
+        new_chunk = arr[-remainder:] + arr[:k-remainder]
+        res.append(new_chunk)
+    return res
 
-            item_id = user_rating.gameId
-            
-            if item_id not in Q.index:
-                Q.loc[item_id, :] = 3 * np.random.rand(1, k_latent_factors)
 
-            user_factors = P.loc[user_id, :].values
-            item_factors = Q.loc[item_id, :].values
+def get_new_user_factors(ratings, k, items_factors):
+    results = []
 
-            actual_rating = user_rating.value
-            predicted_rating = rating_prediction(user_factors, item_factors)
-            error = actual_rating - predicted_rating
-            
-            # extract into 'update' method / try adjusting the update method
-            P_gradient = learning_rate * (error * item_factors - _lambda * user_factors)
-            Q_gradient = learning_rate * (error * user_factors - _lambda * item_factors)
+    # in case user ratings contain a game that is not present in the items_factors matrix
+    # (shouldn't happen, but just in case there is a discrepancy between games, or user/FE sends a game with invalid id)
+    filtered_ratings = list(filter(lambda x: x.gameId in items_factors.index, ratings))
 
-            P.loc[user_id, :] += P_gradient
-            Q.loc[item_id, :] += Q_gradient
-            
+    for group in split(filtered_ratings, k):
+        coeffs = []
+        values = []
+        for rating in group:
+            item_factors = items_factors.loc[rating.gameId, :].values
+            coeffs.append(item_factors)
+            values.append(rating.value)
+
+        # solve a system of linear equations for "k" ratings to get "k" user factors:
+        # > single equation: user_factors * item_factors^T = rating,
+        #   solve for user_factors (u1, u2, u3) with given item_factors and rating
+        # > if somehow coeffs matrix was to be singular, i.e. doesn't have one solution, skip
+        if linalg.det(coeffs) != 0:
+            equation_system_result = linalg.solve(np.array(coeffs), np.array(values))
+            results.append(equation_system_result)
+
+    # average over all solutions to get an approximation of the user factors,
+    # since we can only use "k_latent_factors" ratings to solve for user factors
+    return np.average(results, axis=0)
+
+
+def get_k_latent_factors(factors_matrix):
+    return len(factors_matrix.columns)
