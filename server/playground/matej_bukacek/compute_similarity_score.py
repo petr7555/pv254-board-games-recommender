@@ -4,11 +4,23 @@ import pandas as pd
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import os
 
-if __name__ == '__main__':
+
+def compute_similarity_score():
   cleaned_data_dir = relative_path_from_file(__file__, "../../data")
-
   games = pd.read_csv(f'{cleaned_data_dir}/games_cleaned.csv')
+
+  path = relative_path_from_file(__file__, "../..")
+
+  if os.path.exists(f"{path}/app/db/similarity_matrix"):
+    if len(os.listdir(f"{path}/app/db/similarity_matrix")) == len(games):
+      print("similarities already computed")
+      return # similarities already exist
+  else:
+    print("creating folder to save similarities")
+    os.mkdir(f"{path}/app/db/similarity_matrix")
+
   mechanics = pd.read_csv(f'{cleaned_data_dir}/mechanics_cleaned.csv')
   subcategories = pd.read_csv(f'{cleaned_data_dir}/subcategories_cleaned.csv')
   themes = pd.read_csv(f'{cleaned_data_dir}/themes_cleaned.csv')
@@ -47,24 +59,29 @@ if __name__ == '__main__':
   for idx in string_dict.keys():
       string_dict[idx] = ' '.join(string_dict[idx].split())
 
-  games = pd.read_csv(f'{cleaned_data_dir}/games_cleaned.csv')
+  # games = pd.read_csv(f'{cleaned_data_dir}/games_cleaned.csv')
+
+  del mechanics
+  del subcategories
+  del themes
+  del games
 
   strings = [value for (id, value) in sorted(string_dict.items(), key=lambda x: x[0])]
   tfidf_matrix = TfidfVectorizer().fit_transform(strings)
 
   # nedostatek RAM mi zabijel program
-  del mechanics
-  del subcategories
-  del themes
-  del games
   del strings
   del string_dict
 
-  similarity_scores = cosine_similarity(tfidf_matrix).astype(np.float32)
+  # similarity_scores = cosine_similarity(tfidf_matrix).astype(np.float32)
 
   path = relative_path_from_file(__file__, "../..")
   # np.save(f"{path}/app/db/similarity_matrix", similarity_scores)
 
-  for i, row in enumerate(similarity_scores):
-    np.save(f"{path}/app/db/similarity_matrix/similarity_row_{i}", row)
+  for i, row in enumerate(tfidf_matrix):
+    similarities = cosine_similarity(row, tfidf_matrix).astype(np.float32)
+    np.save(f"{path}/app/db/similarity_matrix/similarity_row_{i}", similarities)
+
+  # for i, row in enumerate(similarity_scores):
+  #   np.save(f"{path}/app/db/similarity_matrix/similarity_row_{i}", row)
 

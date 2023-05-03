@@ -1,5 +1,5 @@
 import random
-from app.utils.tfidf_related import get_most_similar, get_most_similar_alt
+from app.utils.tfidf_related import compute_similarity_score, get_most_similar, get_most_similar_alt
 
 import pandas as pd
 
@@ -9,7 +9,6 @@ from app.types.shared_types import PagedRequest, GamesResponse, GameRatingSimple
 from app.utils.get_paged_games import get_paged_games
 from app.utils.load_games_from_json import load_games_from_json
 from app.utils.relative_path_from_file import relative_path_from_file
-
 
 router = APIRouter(
     prefix="/recommendations",
@@ -24,6 +23,7 @@ games_ordered_by_number_of_ratings = load_games_from_json(
 
 cleaned_data_dir = relative_path_from_file(__file__, "../../data")
 games = pd.read_csv(f'{cleaned_data_dir}/games_cleaned.csv')
+compute_similarity_score()
 # similarity_scores = np.load("app/db/similarity_matrix.npy")
 
 
