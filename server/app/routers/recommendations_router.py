@@ -1,8 +1,7 @@
 import random
-from app.utils.tfidf_related import tfidf, get_data, get_most_similar
-import numpy as np
+from app.utils.tfidf_related import get_most_similar, get_most_similar_alt
+
 import pandas as pd
-from sklearn.metrics.pairwise import cosine_similarity
 
 from fastapi import APIRouter
 
@@ -25,7 +24,7 @@ games_ordered_by_number_of_ratings = load_games_from_json(
 
 cleaned_data_dir = relative_path_from_file(__file__, "../../data")
 games = pd.read_csv(f'{cleaned_data_dir}/games_cleaned.csv')
-similarity_scores = np.load("app/db/similarity_matrix.npy")
+# similarity_scores = np.load("app/db/similarity_matrix.npy")
 
 
 @router.post("/top-rated")
@@ -62,22 +61,7 @@ def personalized_recommendations(request: PersonalizedRecommendationsRequest) ->
     ratings = request.ratings
     offset = request.offset
     limit = request.limit
-    print(limit)
-    # games, string_dict = get_data()
 
-    # tfidf_matrix = tfidf(string_dict)
-    # similarity_scores = cosine_similarity(tfidf_matrix)
-    shuffled_games = get_most_similar(games, similarity_scores, ratings)
+    # shuffled_games = get_most_similar(games, similarity_scores, ratings)
+    shuffled_games = get_most_similar_alt(games, len(games_ordered_by_rank), ratings)
     return get_paged_games(shuffled_games, offset, limit)
-
-# TODO
-"""
-@router.post("/personalized")
-def personalized_recommendations(request: PersonalizedRecommendationsRequest) -> GamesResponse:
-    ratings = request.ratings
-    offset = request.offset
-    limit = request.limit
-
-    shuffled_games = random.sample(games_ordered_by_name, len(games_ordered_by_name))
-    return get_paged_games(shuffled_games, offset, limit)
-"""

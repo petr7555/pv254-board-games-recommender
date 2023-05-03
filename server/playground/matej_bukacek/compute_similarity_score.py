@@ -61,4 +61,8 @@ if __name__ == '__main__':
   similarity_scores = cosine_similarity(tfidf_matrix).astype(np.float32)
 
   path = relative_path_from_file(__file__, "../..")
-  np.save(f"{path}/app/db/similarity_matrix", similarity_scores)
+  # np.save(f"{path}/app/db/similarity_matrix", similarity_scores)
+
+  for i, row in enumerate(similarity_scores):
+    np.save(f"{path}/app/db/similarity_matrix/similarity_row_{i}", row)
+
