@@ -1,13 +1,12 @@
 import random
 
-import pandas as pd
 from fastapi import APIRouter
 
+from app.algorithms.tfidf import get_tfidf_recommendations
 from app.types.shared_types import PagedRequest, GamesResponse, GameRatingSimple
 from app.utils.get_paged_games import get_paged_games
 from app.utils.load_games_from_json import load_games_from_json
 from app.utils.relative_path_from_file import relative_path_from_file
-from app.algorithms.tfidf import create_similarity_matrix, get_tfidf_recommendations
 
 router = APIRouter(
     prefix="/recommendations",
@@ -18,8 +17,6 @@ games_ordered_by_rank = load_games_from_json(relative_path_from_file(__file__, "
 games_ordered_by_name = load_games_from_json(relative_path_from_file(__file__, "../db/gamesOrderedByName.json"))
 games_ordered_by_number_of_ratings = load_games_from_json(
     relative_path_from_file(__file__, "../db/gamesOrderedByNumberOfRatings.json"))
-
-# create_similarity_matrix()
 
 
 @router.post("/top-rated")

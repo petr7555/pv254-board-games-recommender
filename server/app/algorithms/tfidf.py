@@ -77,9 +77,6 @@ def create_similarity_matrix() -> None:
 
     print("Saving similarity matrix...")
     start_time = time.time()
-    # TODO compress? Takes 3x more time and reduces size from 1.9GB to 1.7GB.
-    # with gzip.GzipFile(f"{similarity_matrix_path}.gz", "w") as f:
-    #     np.save(file=f, arr=similarity_matrix)
     np.save(similarity_matrix_path, similarity_matrix)
     print(f"Similarity matrix saved in {time.time() - start_time:.1f} seconds")
 
