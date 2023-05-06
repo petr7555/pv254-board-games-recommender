@@ -1,14 +1,13 @@
 import random
-from app.utils.tfidf_related import compute_similarity_score, get_most_similar, get_most_similar_alt
 
 import pandas as pd
-
 from fastapi import APIRouter
 
 from app.types.shared_types import PagedRequest, GamesResponse, GameRatingSimple
 from app.utils.get_paged_games import get_paged_games
 from app.utils.load_games_from_json import load_games_from_json
 from app.utils.relative_path_from_file import relative_path_from_file
+from app.algorithms.tfidf import compute_similarity_score, get_tfidf_recommendations
 
 router = APIRouter(
     prefix="/recommendations",
@@ -20,11 +19,8 @@ games_ordered_by_name = load_games_from_json(relative_path_from_file(__file__, "
 games_ordered_by_number_of_ratings = load_games_from_json(
     relative_path_from_file(__file__, "../db/gamesOrderedByNumberOfRatings.json"))
 
-
-cleaned_data_dir = relative_path_from_file(__file__, "../../data")
-games = pd.read_csv(f'{cleaned_data_dir}/games_cleaned.csv')
+games = pd.read_csv(relative_path_from_file(__file__, "../../data/cleaned/games.csv"))
 compute_similarity_score()
-# similarity_scores = np.load("app/db/similarity_matrix.npy")
 
 
 @router.post("/top-rated")
@@ -55,13 +51,12 @@ def get_recommendations_random(request: PagedRequest) -> GamesResponse:
 class PersonalizedRecommendationsRequest(PagedRequest):
     ratings: list[GameRatingSimple]
 
-# TODO
-@router.post("/personalized")
-def personalized_recommendations(request: PersonalizedRecommendationsRequest) -> GamesResponse:
+
+@router.post("/tfidf")
+def get_recommendations_tfidf(request: PersonalizedRecommendationsRequest) -> GamesResponse:
     ratings = request.ratings
     offset = request.offset
     limit = request.limit
 
-    # shuffled_games = get_most_similar(games, similarity_scores, ratings)
-    shuffled_games = get_most_similar_alt(games, len(games_ordered_by_rank), ratings)
-    return get_paged_games(shuffled_games, offset, limit)
+    games_ordered_by_cosine_similarity = get_tfidf_recommendations(games, ratings)
+    return get_paged_games(games_ordered_by_cosine_similarity, offset, limit)
