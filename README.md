@@ -40,7 +40,7 @@ See the app deployed [here](https://pv254-board-games-recommender.vercel.app/).
 		- average number of ratings per user: 81.67
 		- median number of ratings per user: 39
 		- maximum number of ratings per user: 6478
-		- average rating: 7.10
+		- average rating: 7.10 (range [0, 10])
 		- ![Number of ratings per rating value histogram](images/number_of_ratings_per_rating_value_histogram.png)
 		- ![Number of users per number of ratings histogram](images/number_of_users_per_number_of_ratings_histogram.png)
 		- ![Average rating of games per subcategory bar plot](images/average_rating_of_games_by_subcategory_bar_plot.png)
