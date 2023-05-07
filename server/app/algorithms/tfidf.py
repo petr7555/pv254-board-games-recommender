@@ -1,6 +1,7 @@
 import json
 import os
 import time
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -20,17 +21,17 @@ def get_column_name(column: str) -> str:
     return column.replace("/", "_").replace(" ", "_")
 
 
-def get_textual_columns_representation(row, textual_columns: list[str]) -> str:
+def get_textual_columns_representation(row: Any, textual_columns: list[str]) -> str:
     return " ".join([row[column] for column in textual_columns])
 
 
-def get_value_columns_representation(row, value_columns: list[str], weight: int) -> str:
+def get_value_columns_representation(row: Any, value_columns: list[str], weight: int) -> str:
     return " ".join(
         [f"{get_column_name(column)}_{row[column]} " * weight for column in value_columns]
     )
 
 
-def get_binary_columns_representation(row, categorical_columns: list[str], weight: int) -> str:
+def get_binary_columns_representation(row: Any, categorical_columns: list[str], weight: int) -> str:
     return " ".join(
         [
             f"{get_column_name(column)}_1 " * weight
@@ -122,7 +123,7 @@ def create_similarity_matrix() -> None:
 
 
 def get_tfidf_recommendations(games: list[Game], item_ratings: list[GameRatingSimple]):
-    similarity_matrix = np.load(similarity_matrix_path)
+    similarity_matrix = np.load(similarity_matrix_path, mmap_mode="r")
 
     with open(map_from_bgg_id_to_index_path, "r") as f:
         map_from_bgg_id_to_index = {int(bgg_id): index for bgg_id, index in json.load(f).items()}
