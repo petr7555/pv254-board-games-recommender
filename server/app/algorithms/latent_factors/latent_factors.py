@@ -2,8 +2,6 @@ import numpy as np
 import pandas as pd
 from numpy import linalg
 
-from app.utils.load_latent_factors_matrices import load_user_factors
-
 
 def rating_prediction(user_factors, item_factors):
     return np.dot(user_factors, item_factors.T)
@@ -18,7 +16,7 @@ def predict_ratings(user_factors, items_factors):
     return pd.DataFrame({"predicted_rating": predicted_ratings}, index=items_factors.index)
 
 
-def get_LF_recommendations(ratings, items_factors, user_id=None):
+def get_latent_factors_recommendations(ratings, items_factors, user_id=None):
     k_latent_factors = get_k_latent_factors(items_factors)
 
     # since we currently only support new users' predictions, we can avoid loading users factors for no reason

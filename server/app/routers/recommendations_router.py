@@ -4,10 +4,10 @@ from fastapi import APIRouter
 
 from app.algorithms.tfidf import get_tfidf_recommendations
 from app.types.shared_types import PagedRequest, GamesResponse, GameRatingSimple
-from app.utils.get_latent_factors_recommendations import get_LF_recommendations
+from app.algorithms.latent_factors.get_latent_factors_recommendations import get_latent_factors_recommendations
 from app.utils.get_paged_games import get_paged_games
 from app.utils.load_games_from_json import load_games_list_from_json, load_games_dict_from_json
-from app.utils.load_latent_factors_matrices import load_item_factors
+from app.algorithms.latent_factors.load_latent_factors_matrices import load_item_factors
 from app.utils.relative_path_from_file import relative_path_from_file
 
 router = APIRouter(
@@ -74,7 +74,7 @@ def latent_factors_recommendations(request: PersonalizedRecommendationsRequest) 
     offset = request.offset
     limit = request.limit
 
-    recommended_games_ids = get_LF_recommendations(ratings, items_factors)
+    recommended_games_ids = get_latent_factors_recommendations(ratings, items_factors)
     recommended_games_sorted = [games_by_id[game_id] for game_id in recommended_games_ids]
 
     return get_paged_games(recommended_games_sorted, offset, limit)
