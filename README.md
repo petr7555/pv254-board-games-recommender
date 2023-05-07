@@ -1,7 +1,7 @@
 # 🎲 Board games recommender system
 
 [![Lint and test frontend](https://github.com/petr7555/pv254-board-games-recommender/actions/workflows/lint_and_test_frontend.yml/badge.svg)](https://github.com/petr7555/pv254-board-games-recommender/actions/workflows/lint_and_test_frontend.yml)
-[![Lint backend](https://github.com/petr7555/pv254-board-games-recommender/actions/workflows/lint_backend.yml/badge.svg)](https://github.com/petr7555/pv254-board-games-recommender/actions/workflows/lint_backend.yml)
+[![Lint server](https://github.com/petr7555/pv254-board-games-recommender/actions/workflows/lint_backend.yml/badge.svg)](https://github.com/petr7555/pv254-board-games-recommender/actions/workflows/lint_backend.yml)
 
 See the app deployed [here](https://pv254-board-games-recommender.vercel.app/).
 
