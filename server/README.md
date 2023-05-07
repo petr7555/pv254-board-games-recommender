@@ -15,3 +15,9 @@ The server is deployed at [https://pv254-board-games-recommender-server.onrender
 - add package only for development: `poetry add <package> --group dev`, e.g. `poetry add jupyter --group dev`
 - regenerate `poetry.lock` file: `poetry lock --no-update`
 - remove package: `poetry remove <package>`, e.g. `poetry remove numpy`
+
+## Lint autoformat
+- `poetry run black --config black.py.toml .`
+
+## Lint check
+- `poetry run black --config black.py.toml . --check`

@@ -25,6 +25,7 @@ class GamesResponse(TypedDict):
     games: list[Game]
     totalNumberOfGames: int
 
+
 class GameRatingSimple(BaseModel):
     gameId: int
     value: int

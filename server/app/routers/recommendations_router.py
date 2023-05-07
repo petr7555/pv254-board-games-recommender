@@ -12,10 +12,15 @@ router = APIRouter(
     tags=["recommendations"],
 )
 
-games_ordered_by_rank = load_games_from_json(relative_path_from_file(__file__, "../db/gamesOrderedByRank.json"))
-games_ordered_by_name = load_games_from_json(relative_path_from_file(__file__, "../db/gamesOrderedByName.json"))
+games_ordered_by_rank = load_games_from_json(
+    relative_path_from_file(__file__, "../db/gamesOrderedByRank.json")
+)
+games_ordered_by_name = load_games_from_json(
+    relative_path_from_file(__file__, "../db/gamesOrderedByName.json")
+)
 games_ordered_by_number_of_ratings = load_games_from_json(
-    relative_path_from_file(__file__, "../db/gamesOrderedByNumberOfRatings.json"))
+    relative_path_from_file(__file__, "../db/gamesOrderedByNumberOfRatings.json")
+)
 
 
 @router.post("/top-rated")
