@@ -129,9 +129,9 @@ def get_tfidf_recommendations(games: dict[str, Game], item_ratings: list[GameRat
         map_from_bgg_id_to_index = {int(bgg_id): index for bgg_id, index in json.load(f).items()}
     map_from_index_to_bgg_id = {index: bgg_id for bgg_id, index in map_from_bgg_id_to_index.items()}
 
-    indices_of_games_rated_by_user = [
-        map_from_bgg_id_to_index[rating.gameId] for rating in item_ratings
-    ]
+    rated_ids = [rating.gameId for rating in item_ratings]
+    indices_of_games_rated_by_user = [map_from_bgg_id_to_index[bgg_id] for bgg_id in rated_ids]
+
     user_ratings = np.array([rating.value for rating in item_ratings]).reshape(-1, 1)
 
     similarities = similarity_matrix[indices_of_games_rated_by_user]
@@ -146,8 +146,9 @@ def get_tfidf_recommendations(games: dict[str, Game], item_ratings: list[GameRat
         for index in sorted_indices_of_similarities_from_most_similar
     ]
     unique_bgg_ids_of_similar_games = list(dict.fromkeys(bgg_ids_of_similar_games))
+    ids_without_rated_games = [bgg_id for bgg_id in unique_bgg_ids_of_similar_games if bgg_id not in rated_ids]
 
-    sorted_games = [games[str(bgg_id)] for bgg_id in unique_bgg_ids_of_similar_games]
+    sorted_games = [games[str(bgg_id)] for bgg_id in ids_without_rated_games]
     return sorted_games
 
 
