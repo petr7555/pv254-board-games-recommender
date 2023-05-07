@@ -22,6 +22,7 @@ games_ordered_by_name = load_games_from_json(
 games_ordered_by_number_of_ratings = load_games_from_json(
     relative_path_from_file(__file__, "../db/gamesOrderedByNumberOfRatings.json")
 )
+games_by_id = load_games_from_json(relative_path_from_file(__file__, "../db/gamesById.json"))
 
 
 @router.post("/top-rated")
@@ -59,5 +60,5 @@ def get_recommendations_tfidf(request: PersonalizedRecommendationsRequest) -> Ga
     offset = request.offset
     limit = request.limit
 
-    games_ordered_by_cosine_similarity = get_tfidf_recommendations(games_ordered_by_name, ratings)
+    games_ordered_by_cosine_similarity = get_tfidf_recommendations(games_by_id, ratings)
     return get_paged_games(games_ordered_by_cosine_similarity, offset, limit)

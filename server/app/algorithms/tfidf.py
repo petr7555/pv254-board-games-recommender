@@ -122,7 +122,7 @@ def create_similarity_matrix() -> None:
     print(f"Map from BGGId to index saved.")
 
 
-def get_tfidf_recommendations(games: list[Game], item_ratings: list[GameRatingSimple]):
+def get_tfidf_recommendations(games: dict[str, Game], item_ratings: list[GameRatingSimple]):
     similarity_matrix = np.load(similarity_matrix_path, mmap_mode="r")
 
     with open(map_from_bgg_id_to_index_path, "r") as f:
@@ -147,10 +147,7 @@ def get_tfidf_recommendations(games: list[Game], item_ratings: list[GameRatingSi
     ]
     unique_bgg_ids_of_similar_games = list(dict.fromkeys(bgg_ids_of_similar_games))
 
-    def get_game_by_game_id(game_id: int) -> Game:
-        return next((game for game in games if game["id"] == game_id), None)
-
-    sorted_games = [get_game_by_game_id(bgg_id) for bgg_id in unique_bgg_ids_of_similar_games]
+    sorted_games = [games[str(bgg_id)] for bgg_id in unique_bgg_ids_of_similar_games]
     return sorted_games
 
 
