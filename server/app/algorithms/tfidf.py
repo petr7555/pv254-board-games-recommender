@@ -25,42 +25,77 @@ def get_textual_columns_representation(row, textual_columns: list[str]) -> str:
 
 
 def get_value_columns_representation(row, value_columns: list[str], weight: int) -> str:
-    return " ".join([f"{get_column_name(column)}_{row[column]} " * weight for column in value_columns])
+    return " ".join(
+        [f"{get_column_name(column)}_{row[column]} " * weight for column in value_columns]
+    )
 
 
 def get_binary_columns_representation(row, categorical_columns: list[str], weight: int) -> str:
-    return " ".join([f"{get_column_name(column)}_1 " * weight for column in categorical_columns if row[column] == 1])
+    return " ".join(
+        [
+            f"{get_column_name(column)}_1 " * weight
+            for column in categorical_columns
+            if row[column] == 1
+        ]
+    )
 
 
 def create_similarity_matrix() -> None:
-    games = pd.read_csv(os.path.join(data_dir, 'games.csv'))
-    games['Description'] = games['Description'].fillna("")
+    games = pd.read_csv(os.path.join(data_dir, "games.csv"))
+    games["Description"] = games["Description"].fillna("")
 
-    mechanics = pd.read_csv(os.path.join(data_dir, 'mechanics.csv'))
+    mechanics = pd.read_csv(os.path.join(data_dir, "mechanics.csv"))
     mechanics_columns = mechanics.columns[1:].tolist()
-    subcategories = pd.read_csv(os.path.join(data_dir, 'subcategories.csv'))
+    subcategories = pd.read_csv(os.path.join(data_dir, "subcategories.csv"))
     subcategories_columns = subcategories.columns[1:].tolist()
-    themes = pd.read_csv(os.path.join(data_dir, 'themes.csv'))
+    themes = pd.read_csv(os.path.join(data_dir, "themes.csv"))
     themes_columns = themes.columns[1:].tolist()
 
-    merged_tables = games.merge(mechanics, on='BGGId', how='left').merge(subcategories, on='BGGId', how='left').merge(
-        themes, on='BGGId', how='left')
-    map_from_bgg_id_to_index = {bgg_id: index for index, bgg_id in enumerate(merged_tables['BGGId'])}
+    merged_tables = (
+        games.merge(mechanics, on="BGGId", how="left")
+        .merge(subcategories, on="BGGId", how="left")
+        .merge(themes, on="BGGId", how="left")
+    )
+    map_from_bgg_id_to_index = {
+        bgg_id: index for index, bgg_id in enumerate(merged_tables["BGGId"])
+    }
     merged_tables = merged_tables.set_index("BGGId")
 
-    textual_columns = ['Name', 'Description']
-    value_columns = ['YearPublished', 'MinPlayers', 'MaxPlayers', 'BestPlayers', 'MfgPlaytime', 'ComMinPlaytime',
-                     'ComMaxPlaytime', 'MfgAgeRec', 'Kickstarted', ]
-    binary_columns = ['Cat:Thematic', 'Cat:Strategy', 'Cat:War', 'Cat:Family', 'Cat:CGS', 'Cat:Abstract',
-                      'Cat:Party', 'Cat:Childrens'] + mechanics_columns + subcategories_columns + themes_columns
+    textual_columns = ["Name", "Description"]
+    value_columns = [
+        "YearPublished",
+        "MinPlayers",
+        "MaxPlayers",
+        "BestPlayers",
+        "MfgPlaytime",
+        "ComMinPlaytime",
+        "ComMaxPlaytime",
+        "MfgAgeRec",
+        "Kickstarted",
+    ]
+    binary_columns = (
+        [
+            "Cat:Thematic",
+            "Cat:Strategy",
+            "Cat:War",
+            "Cat:Family",
+            "Cat:CGS",
+            "Cat:Abstract",
+            "Cat:Party",
+            "Cat:Childrens",
+        ]
+        + mechanics_columns
+        + subcategories_columns
+        + themes_columns
+    )
 
     print("Computing string representation of games...")
     start_time = time.time()
     string_games = merged_tables.apply(
-        lambda row: get_textual_columns_representation(row, textual_columns) +
-                    get_value_columns_representation(row, value_columns, weight=2) +
-                    get_binary_columns_representation(row, binary_columns, weight=2),
-        axis=1
+        lambda row: get_textual_columns_representation(row, textual_columns)
+        + get_value_columns_representation(row, value_columns, weight=2)
+        + get_binary_columns_representation(row, binary_columns, weight=2),
+        axis=1,
     ).tolist()
     print(f"String representation of games computed in {time.time() - start_time:.1f} seconds")
 
@@ -93,7 +128,9 @@ def get_tfidf_recommendations(games: list[Game], item_ratings: list[GameRatingSi
         map_from_bgg_id_to_index = {int(bgg_id): index for bgg_id, index in json.load(f).items()}
     map_from_index_to_bgg_id = {index: bgg_id for bgg_id, index in map_from_bgg_id_to_index.items()}
 
-    indices_of_games_rated_by_user = [map_from_bgg_id_to_index[rating.gameId] for rating in item_ratings]
+    indices_of_games_rated_by_user = [
+        map_from_bgg_id_to_index[rating.gameId] for rating in item_ratings
+    ]
     user_ratings = np.array([rating.value for rating in item_ratings]).reshape(-1, 1)
 
     similarities = similarity_matrix[indices_of_games_rated_by_user]
@@ -103,8 +140,10 @@ def get_tfidf_recommendations(games: list[Game], item_ratings: list[GameRatingSi
     sorted_indices_of_similarities_from_most_similar = np.argsort(similarities_flattened)[::-1]
 
     num_games = len(games)
-    bgg_ids_of_similar_games = [map_from_index_to_bgg_id[index % num_games] for index in
-                                sorted_indices_of_similarities_from_most_similar]
+    bgg_ids_of_similar_games = [
+        map_from_index_to_bgg_id[index % num_games]
+        for index in sorted_indices_of_similarities_from_most_similar
+    ]
     unique_bgg_ids_of_similar_games = list(dict.fromkeys(bgg_ids_of_similar_games))
 
     def get_game_by_game_id(game_id: int) -> Game:
