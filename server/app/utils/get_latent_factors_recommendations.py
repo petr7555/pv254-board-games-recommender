@@ -9,39 +9,38 @@ def rating_prediction(user_factors, item_factors):
     return np.dot(user_factors, item_factors.T)
 
 
-def predict_ratings(user_factors, items_factors):    
+def predict_ratings(user_factors, items_factors):
     predicted_ratings = []
 
     for _, item_factors in items_factors.iterrows():
         predicted_ratings.append(rating_prediction(user_factors, item_factors))
-    
-    return pd.DataFrame({'predicted_rating': predicted_ratings}, index=items_factors.index)
+
+    return pd.DataFrame({"predicted_rating": predicted_ratings}, index=items_factors.index)
 
 
 def get_LF_recommendations(ratings, items_factors, user_id=None):
-    
     k_latent_factors = get_k_latent_factors(items_factors)
 
     # since we currently only support new users' predictions, we can avoid loading users factors for no reason
     user_factors = []
-    if user_id is not None: # and user_id in users_factors.index:
+    if user_id is not None:  # and user_id in users_factors.index:
         # user_factors = users_factors.loc[user_id]
         pass
     else:
         user_factors = get_new_user_factors(ratings, k_latent_factors, items_factors)
 
     predicted_ratings = predict_ratings(user_factors, items_factors)
-    return predicted_ratings.sort_values('predicted_rating', ascending = False).index.array
+    return predicted_ratings.sort_values("predicted_rating", ascending=False).index.array
 
 
 # split array (ratings) into groups with "k" items + loop to start to include all elements if necessary
 def split(arr, k):
     n = len(arr)
     chunks = len(arr) // k
-    res = [arr[i*k : (i+1)*k] for i in range(chunks)]
+    res = [arr[i * k : (i + 1) * k] for i in range(chunks)]
     remainder = n % k
     if remainder != 0:
-        new_chunk = arr[-remainder:] + arr[:k-remainder]
+        new_chunk = arr[-remainder:] + arr[: k - remainder]
         res.append(new_chunk)
     return res
 
@@ -66,7 +65,7 @@ def get_user_factors_EQAVG(ratings, k, items_factors):
 
     for group in split(filtered_ratings, k):
         coeffs, values = get_X_y(group, items_factors)
-        
+
         # solve a system of linear equations for "k" ratings to get "k" user factors:
         # > single equation: user_factors * item_factors^T = rating,
         #   solve for user_factors (u1, u2, u3) with given item_factors and rating
@@ -87,6 +86,7 @@ def get_k_latent_factors(factors_matrix):
 def get_user_factors_LSTSQ(ratings, items_factors):
     x, y = get_X_y(ratings, items_factors)
     return linalg.lstsq(x, y, rcond=None)[0]
+
 
 def get_X_y(ratings, items_factors):
     coeffs = []
