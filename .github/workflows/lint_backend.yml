@@ -1,13 +1,13 @@
-name: Lint backend
+name: Lint server
 
 on: push
 
 jobs:
-  lint-backend:
+  lint-server:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend
+        working-directory: server
 
     strategy:
       fail-fast: true
