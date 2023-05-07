@@ -2,23 +2,30 @@ import random
 
 from fastapi import APIRouter
 
-from app.types.shared_types import PagedRequest, GamesResponse, GameRatingSimple, Game
+from app.algorithms.tfidf import get_tfidf_recommendations
+from app.types.shared_types import PagedRequest, GamesResponse, GameRatingSimple
+from app.utils.get_latent_factors_recommendations import get_LF_recommendations
 from app.utils.get_paged_games import get_paged_games
 from app.utils.load_games_from_json import load_games_from_json
-from app.utils.relative_path_from_file import relative_path_from_file
-from app.utils.get_latent_factors_recommendations import get_LF_recommendations
 from app.utils.load_latent_factors_matrices import load_item_factors
+from app.utils.relative_path_from_file import relative_path_from_file
 
 router = APIRouter(
     prefix="/recommendations",
     tags=["recommendations"],
 )
 
-games_ordered_by_rank = load_games_from_json(relative_path_from_file(__file__, "../db/gamesOrderedByRank.json"))
-games_ordered_by_name = load_games_from_json(relative_path_from_file(__file__, "../db/gamesOrderedByName.json"))
+games_ordered_by_rank = load_games_from_json(
+    relative_path_from_file(__file__, "../db/gamesOrderedByRank.json")
+)
+games_ordered_by_name = load_games_from_json(
+    relative_path_from_file(__file__, "../db/gamesOrderedByName.json")
+)
 games_ordered_by_number_of_ratings = load_games_from_json(
-    relative_path_from_file(__file__, "../db/gamesOrderedByNumberOfRatings.json"))
-games_dict = { game['id'] : game for game in games_ordered_by_name }
+    relative_path_from_file(__file__, "../db/gamesOrderedByNumberOfRatings.json")
+)
+games_by_id = load_games_from_json(relative_path_from_file(__file__, "../db/gamesById.json"))
+
 items_factors = load_item_factors()
 
 
@@ -51,15 +58,14 @@ class PersonalizedRecommendationsRequest(PagedRequest):
     ratings: list[GameRatingSimple]
 
 
-# TODO
-@router.post("/personalized")
-def personalized_recommendations(request: PersonalizedRecommendationsRequest) -> GamesResponse:
+@router.post("/tfidf")
+def get_recommendations_tfidf(request: PersonalizedRecommendationsRequest) -> GamesResponse:
     ratings = request.ratings
     offset = request.offset
     limit = request.limit
 
-    shuffled_games = random.sample(games_ordered_by_name, len(games_ordered_by_name))
-    return get_paged_games(shuffled_games, offset, limit)
+    games_ordered_by_cosine_similarity = get_tfidf_recommendations(games_by_id, ratings)
+    return get_paged_games(games_ordered_by_cosine_similarity, offset, limit)
 
 
 @router.post("/latent-factors")
@@ -69,6 +75,6 @@ def latent_factors_recommendations(request: PersonalizedRecommendationsRequest) 
     limit = request.limit
 
     recommended_games_ids = get_LF_recommendations(ratings, items_factors)
-    recommended_games_sorted = [games_dict[game_id] for game_id in recommended_games_ids]
+    recommended_games_sorted = [games_by_id[game_id] for game_id in recommended_games_ids]
 
     return get_paged_games(recommended_games_sorted, offset, limit)

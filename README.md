@@ -1,5 +1,8 @@
 # 🎲 Board games recommender system
 
+[![Lint and test frontend](https://github.com/petr7555/pv254-board-games-recommender/actions/workflows/lint_and_test_frontend.yml/badge.svg)](https://github.com/petr7555/pv254-board-games-recommender/actions/workflows/lint_and_test_frontend.yml)
+[![Lint server](https://github.com/petr7555/pv254-board-games-recommender/actions/workflows/lint_backend.yml/badge.svg)](https://github.com/petr7555/pv254-board-games-recommender/actions/workflows/lint_backend.yml)
+
 See the app deployed [here](https://pv254-board-games-recommender.vercel.app/).
 
 ## Team
@@ -19,11 +22,8 @@ See the app deployed [here](https://pv254-board-games-recommender.vercel.app/).
 	- for each recommendation there will be a button to reveal the algorithm used
 - hypothetical business model
 	- referral links / eshop
-- specific aspects of the domain
-	- TODO
 - specific data with some basic analysis (value distributions etc.)
 	- [dataset](https://www.kaggle.com/datasets/threnjen/board-games-database-from-boardgamegeek?select=user_ratings.csv):
-		- [dataset](https://drive.google.com/file/d/1iy4AZeqso1YpZ4zDyDHhH98HqJGfh92X/view?usp=sharing) after preprocessing
 		- relevant columns:
 			- games
 				- ImagePath - Image http:// path
@@ -31,23 +31,24 @@ See the app deployed [here](https://pv254-board-games-recommender.vercel.app/).
 				- BGGId - BoardGameGeek game ID
 				- Rating - Raw rating given by user
 				- Username - User giving rating
-	- analysis:
-		- 21 925 different games, 217 themes, 10 subcategories (only 10 033 games (45.8%) belong to some subcategory)
-		- ![barplot](images/average_rating_by_subcategory_barplot.png)
-		- ![barplot](images/number_of_ratings_by_subcategory_barplot.png)
-		- ![histogram](images/ratings_values_histogram.png)
-			- average rating = 7.13
-			- 18 909 528 user ratings of distinct games
-		- ![histogram](images/ratings_per_user_histogram.png)
-			- average number of ratings per user = 46.05 (median = 12)
-			- maximum number of ratings by user = 6 493
-			- 411 374 distinct users rated at least 1 game
-			- 19.3% of users (79 296) rated only 1 game
-		- density of ratings matrix = 0.0021 (0.21%)
-	- data cleaning/preprocessing:
-		- multiple ratings of the same game by some users - duplicates removed, only the latest rating kept (ratings don't have timestamps, so we assumed file `user_ratings.csv` is ordered chronologically and kept only the last occurence of Username-BGGId pair in the file) -> 32 687 rows removed, 0.17%
-		- remove users with less than 10 ratings
-		- remove games with less than 10 ratings
+	- data preprocessing:
+		- there were multiple ratings of the same game by some users - duplicates removed, only the latest rating kept (ratings don't have timestamps, so we assumed file `user_ratings.csv` is ordered chronologically and kept only the last occurence of `Username - BGGId` pair in the file) -> 32 687 ratings removed (0.17%)
+		- removed users with less than 10 ratings
+		- removed games with less than 10 ratings
+	- analysis (after data preprocessing):
+		- 18 340 284 user ratings
+		- 224 557 users
+		- 21 919 games, 217 themes, 10 subcategories (only 10 030 games (45.76%) belong to some subcategory)
+		- density of user ratings matrix: 0.37%
+		- average number of ratings per user: 81.67
+		- median number of ratings per user: 39
+		- maximum number of ratings per user: 6478
+		- average rating: 7.10 (range [0, 10])
+		- ![Number of ratings per rating value histogram](images/number_of_ratings_per_rating_value_histogram.png)
+		- ![Number of users per number of ratings histogram](images/number_of_users_per_number_of_ratings_histogram.png)
+		- ![Average rating of games per subcategory bar plot](images/average_rating_of_games_by_subcategory_bar_plot.png)
+		- ![Number of ratings per subcategory bar plot](images/number_of_ratings_by_subcategory_bar_plot.png)
+
 - specific proposal for algorithms that you want to implement
 	- memory based CF (Pearson correlation coefficient, item-based for easier interpretation of results) - Jakub Kraus
 	- model based CF (gradient descent) - Michal Salášek
