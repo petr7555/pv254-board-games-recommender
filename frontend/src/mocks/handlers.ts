@@ -7,6 +7,12 @@ import GamesSearchRequest from '../types/GamesSearchRequest';
 import PagedRequest from '../types/PagedRequest';
 import GamesResponse from '../types/GamesResponse';
 import PersonalizedRecommendationsRequest from '../types/PersonalizedRecommendationsRequest';
+import {
+  gamesEndpoint,
+  mostRatedRecommendationsEndpoint,
+  personalizedRecommendationsEndpoint, randomRecommendationsEndpoint,
+  topRatedRecommendationsEndpoint
+} from '../utils/constants';
 
 const getPagedGames = async (allGames: Game[], offset: number, limit: number): Promise<GamesResponse> => {
   const games = allGames.slice(offset, offset + limit);
@@ -20,7 +26,7 @@ const random = (seed: number) => {
 };
 
 const handlers = [
-  rest.post('*/recommendations/personalized', async (req, res, ctx) => {
+  rest.post(`*${personalizedRecommendationsEndpoint}`, async (req, res, ctx) => {
     const { ratings, offset, limit }: PersonalizedRecommendationsRequest = await req.json();
     let seed = ratings.reduce((acc, rating) => acc + (rating.gameId * rating.value), 0);
     const shuffledGames = [...gamesOrderedByNameMock].sort(() => 0.5 - random(seed++));
@@ -29,21 +35,21 @@ const handlers = [
     return res(ctx.status(200), ctx.json(response));
   }),
 
-  rest.post('*/recommendations/top-rated', async (req, res, ctx) => {
+  rest.post(`*${topRatedRecommendationsEndpoint}`, async (req, res, ctx) => {
     const { offset, limit }: PagedRequest = await req.json();
     const response = await getPagedGames(gamesOrderedByRankMock, offset, limit);
 
     return res(ctx.delay(300), ctx.status(200), ctx.json(response));
   }),
 
-  rest.post('*/recommendations/most-rated', async (req, res, ctx) => {
+  rest.post(`*${mostRatedRecommendationsEndpoint}`, async (req, res, ctx) => {
     const { offset, limit }: PagedRequest = await req.json();
     const response = await getPagedGames(gamesOrderedByNumberOfRatingsMock, offset, limit);
 
     return res(ctx.status(200), ctx.json(response));
   }),
 
-  rest.post('*/recommendations/random', async (req, res, ctx) => {
+  rest.post(`*${randomRecommendationsEndpoint}`, async (req, res, ctx) => {
     const { offset, limit }: PagedRequest = await req.json();
     const shuffledGames = [...gamesOrderedByNameMock].sort(() => 0.5 - Math.random());
     const response = await getPagedGames(shuffledGames, offset, limit);
@@ -51,7 +57,7 @@ const handlers = [
     return res(ctx.status(200), ctx.json(response));
   }),
 
-  rest.post('*/games', async (req, res, ctx) => {
+  rest.post(`*${gamesEndpoint}`, async (req, res, ctx) => {
     const { searchTerm, offset, limit }: GamesSearchRequest = await req.json();
     const matchingGames = gamesOrderedByNameMock.filter(game => game.name.toLowerCase().includes(searchTerm.toLowerCase()));
     const response = await getPagedGames(matchingGames, offset, limit);
