@@ -1,2 +1,4 @@
 __pycache__/
-/data/
+
+data/**/*.csv
+data/bgg_data_documentation.txt
