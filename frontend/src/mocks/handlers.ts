@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import { DefaultBodyType, ResponseComposition, rest, RestContext, RestRequest } from 'msw';
 import Game from '../types/Game';
 import gamesOrderedByNameMock from './data/gamesOrderedByNameMock.json';
 import gamesOrderedByRankMock from './data/gamesOrderedByRankMock.json';
@@ -9,8 +9,10 @@ import GamesResponse from '../types/GamesResponse';
 import PersonalizedRecommendationsRequest from '../types/PersonalizedRecommendationsRequest';
 import {
   gamesEndpoint,
+  latentFactorsRecommendationsEndpoint,
   mostRatedRecommendationsEndpoint,
-  personalizedRecommendationsEndpoint, randomRecommendationsEndpoint,
+  randomRecommendationsEndpoint,
+  tfidfRecommendationsEndpoint,
   topRatedRecommendationsEndpoint
 } from '../utils/constants';
 
@@ -25,14 +27,21 @@ const random = (seed: number) => {
   return x - Math.floor(x);
 };
 
-const handlers = [
-  rest.post(`*${personalizedRecommendationsEndpoint}`, async (req, res, ctx) => {
-    const { ratings, offset, limit }: PersonalizedRecommendationsRequest = await req.json();
-    let seed = ratings.reduce((acc, rating) => acc + (rating.gameId * rating.value), 0);
-    const shuffledGames = [...gamesOrderedByNameMock].sort(() => 0.5 - random(seed++));
-    const response = await getPagedGames(shuffledGames, offset, limit);
+const getPersonalizedRecommendations = async (req: RestRequest, res: ResponseComposition<DefaultBodyType>, ctx: RestContext) => {
+  const { ratings, offset, limit }: PersonalizedRecommendationsRequest = await req.json();
+  let seed = ratings.reduce((acc, rating) => acc + (rating.gameId * rating.value), 0);
+  const shuffledGames = [...gamesOrderedByNameMock].sort(() => 0.5 - random(seed++));
+  const response = await getPagedGames(shuffledGames, offset, limit);
+  return res(ctx.status(200), ctx.json(response));
+};
 
-    return res(ctx.status(200), ctx.json(response));
+const handlers = [
+  rest.post(`*${tfidfRecommendationsEndpoint}`, async (req, res, ctx) => {
+    return getPersonalizedRecommendations(req, res, ctx);
+  }),
+
+  rest.post(`*${latentFactorsRecommendationsEndpoint}`, async (req, res, ctx) => {
+    return getPersonalizedRecommendations(req, res, ctx);
   }),
 
   rest.post(`*${topRatedRecommendationsEndpoint}`, async (req, res, ctx) => {

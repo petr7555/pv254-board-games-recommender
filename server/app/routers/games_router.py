@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from app.types.shared_types import PagedRequest, GamesResponse
 from app.utils.get_paged_games import get_paged_games
-from app.utils.load_games_from_json import load_games_from_json
+from app.utils.load_games_from_json import load_games_list_from_json
 from app.utils.relative_path_from_file import relative_path_from_file
 
 router = APIRouter(
@@ -15,7 +15,9 @@ class GamesSearchRequest(PagedRequest):
     searchTerm: str
 
 
-games = load_games_from_json(relative_path_from_file(__file__, "../db/gamesOrderedByName.json"))
+games = load_games_list_from_json(
+    relative_path_from_file(__file__, "../db/gamesOrderedByName.json")
+)
 
 
 @router.post("/")

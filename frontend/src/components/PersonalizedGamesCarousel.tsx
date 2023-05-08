@@ -3,11 +3,14 @@ import { FC } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { Alert, Stack, Typography } from '@mui/material';
-import { minRatings, personalizedRecommendationsEndpoint } from '../utils/constants';
+import { minRatings } from '../utils/constants';
 
-const title = 'Personalized';
+type Props = {
+  title: string;
+  url: string;
+}
 
-const PersonalizedGamesCarousel: FC = () => {
+const PersonalizedGamesCarousel: FC<Props> = ({title, url}) => {
   const dbRatings = useLiveQuery(() => db.ratings.toArray());
   const dbRatingsLoading = dbRatings === undefined;
   const ratings = dbRatings ?? [];
@@ -22,7 +25,7 @@ const PersonalizedGamesCarousel: FC = () => {
     );
   }
 
-  return <GamesCarousel title={title} url={personalizedRecommendationsEndpoint} ratings={ratings}/>;
+  return <GamesCarousel title={title} url={url} ratings={ratings}/>;
 };
 
 export default PersonalizedGamesCarousel;
