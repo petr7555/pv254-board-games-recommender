@@ -26,7 +26,7 @@ games_ordered_by_number_of_ratings = load_games_list_from_json(
 )
 games_by_id = load_games_dict_from_json(relative_path_from_file(__file__, "../db/gamesById.json"))
 
-items_factors = load_factors(relative_path_from_file(__file__, "../db/item_factors.pkl"))
+items_factors = load_factors(relative_path_from_file(__file__, "../db/items_factors.pkl"))
 
 
 @router.post("/top-rated")

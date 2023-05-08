@@ -121,20 +121,20 @@ def create_similarity_matrix() -> None:
     print(f"Map from BGGId to index saved.")
 
 
-def get_tfidf_recommendations(games: dict[str, Game], item_ratings: list[GameRatingSimple]):
+def get_tfidf_recommendations(games: dict[str, Game], ratings: list[GameRatingSimple]) -> list[Game]:
     similarity_matrix = np.load(similarity_matrix_path, mmap_mode="r")
 
     with open(map_from_bgg_id_to_index_path, "r") as f:
         map_from_bgg_id_to_index = {int(bgg_id): index for bgg_id, index in json.load(f).items()}
     map_from_index_to_bgg_id = {index: bgg_id for bgg_id, index in map_from_bgg_id_to_index.items()}
 
-    rated_ids = [rating.gameId for rating in item_ratings]
+    rated_ids = [rating.gameId for rating in ratings]
     indices_of_games_rated_by_user = [map_from_bgg_id_to_index[bgg_id] for bgg_id in rated_ids]
 
-    user_ratings = np.array([rating.value for rating in item_ratings]).reshape(-1, 1)
+    ratings_values = np.array([rating.value for rating in ratings]).reshape(-1, 1)
 
     similarities = similarity_matrix[indices_of_games_rated_by_user]
-    weighted_similarities = similarities * 0.2 * (user_ratings - 5)
+    weighted_similarities = similarities * 0.2 * (ratings_values - 5)
 
     similarities_flattened = weighted_similarities.flatten()
     sorted_indices_of_similarities_from_most_similar = np.argsort(similarities_flattened)[::-1]
