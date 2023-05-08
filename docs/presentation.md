@@ -46,13 +46,23 @@ section {
 - Specific examples of recommendations, e.g., in the form of screenshots of the developed application
 - Results of the evaluation
 - Experience report (problems, mistakes, useful tools, ...)
+
 ---
 
 # Memory based CF
-- Description of the used recommender techniques, relation to standard techniques discussed during lectures (focus on the description of the overall pipeline, not on details of individual steps, particularly when using standard techniques like TF-IDF or cosine similarity)
+
+- Pipeline:
+  - Define own user by rating several games
+  - From ratings matrix (users x games) get submatrix with users that rated same games as me
+  - For each unrated game further filter submatrix to only users that rated also this unrated game
+  - From this submatrix find k most similar users to me according to game ratings (Pearson c.)
+  - Get mean rating of unrated game from these users
+  - Sort all games according to predicted rating, return top n
 - Specific examples of recommendations, e.g., in the form of screenshots of the developed application
-- Results of the evaluation
-- Experience report (problems, mistakes, useful tools, ...)
+- Qualitative evaluation
+- Encountered problems:
+  - a
+
 ---
 
 [//]: # (Part 3)
