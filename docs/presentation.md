@@ -56,10 +56,89 @@ section {
 ---
 
 # Latent factors
-- Description of the used recommender techniques, relation to standard techniques discussed during lectures (focus on the description of the overall pipeline, not on details of individual steps, particularly when using standard techniques like TF-IDF or cosine similarity)
-- Specific examples of recommendations, e.g., in the form of screenshots of the developed application
-- Results of the evaluation
-- Experience report (problems, mistakes, useful tools, ...)
+- **idea**:
+  - we are trying to model "taste" of users and "features" of items
+  - matrices of user / item latent factors
+- **approach**: minimize squared errors (+ regularization)
+- **method**: stochastic/mini-batch gradient descent
+
+---
+
+![width:300px](../images/latent_factors/latent_factors_predicted_rating.png)
+![width:800px](../images/latent_factors/latent_factors_squared_errors_1.png)
+
+---
+
+![width:800px](../images/latent_factors/latent_factors_2d_example.png)
+
+---
+
+# Pipeline I
+- split dataset into **train**, **validation** and **test** set
+  - **idea**: all games should be present in all three datasets
+
+---
+
+  ![width:800px](../images/latent_factors/latent_factors_data_split_train.png)
+
+---
+
+  ![width:800px](../images/latent_factors/latent_factors_data_split_validation.png)
+
+---
+
+# Pipeline II
+  - use training set (user ratings) to **train** the model
+    - adjust matrices of user / item factors using **gradient descent**
+  - use validation set to prevent overfitting
+    - compute **RMSE**
+    - apply early stopping if necessary
+  - use test set to **evaluate** the trained model (RMSE)
+
+---
+
+# Initial results I
+- **stochastic** gradient descent too **slow**
+  - necessary to reduce data
+- adopt **mini-batch** gradient descent
+  - allows to train on full data with more epochs / hyper-parameter tuning
+
+---
+
+# Initial results II
+- predictions not quite "reasonable" (no obvious pattern)
+  - 2 latent factors → 2D plane (similar to PCA) → **find features** in similar/'opposite' clusters
+  - compare RMSE of latent factors model with **baselines**
+
+---
+
+![width:650px](../images/latent_factors/2d_factors_plot.png)
+
+---
+
+# RMSE comparison
+ - global mean: 1.530
+ - user mean: 1.376
+ - item mean: 1.316
+ - global mean + item/user bias: 1.230
+ - latent factors: 1.19
+ - latent factors with global effects: 1.19
+
+---
+
+# New user
+- approximate **user factors** from ratings
+- item factors matrix is constant
+- least squares
+- simple approach (systems of equations)
+
+---
+
+# Experience report
+- necessary to implement gradient descent myself
+- necessary to make mini-batch
+- additional effort to confirm algorithms are implemented correctly
+- computing recommendations for new user initially not clear
 ---
 # Memory based CF
 - Pipeline:
