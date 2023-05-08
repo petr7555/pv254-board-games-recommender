@@ -12,7 +12,7 @@ from app.utils.universal_path import universal_path
 
 cleaned_data_dir = universal_path("../../data/cleaned")
 user_ratings_path = os.path.join(cleaned_data_dir, "user_ratings.csv")
-items_factors_output_path = universal_path("../app/db/items_factors.pkl")
+items_factors_output_path = universal_path("../db/items_factors.pkl")
 
 
 def rmse(p: pd.DataFrame, q: pd.DataFrame, user_ratings: pd.DataFrame) -> float:
