@@ -53,7 +53,6 @@ section {
 - Evaluation:
   - no exact metric, just by feedback
   - mostly positive feedback, but problems when game has too many reimplementations (those are very similar, so they get high score)
-
 ---
 
 # Latent factors
@@ -61,23 +60,40 @@ section {
 - Specific examples of recommendations, e.g., in the form of screenshots of the developed application
 - Results of the evaluation
 - Experience report (problems, mistakes, useful tools, ...)
+---
+# Memory based CF
+- Pipeline:
+  - Ratings matrix (users x games) - get users that rated same games as me
+  - Unrated game - keep users who rated it
+  - Find k most similar users to me
+  - Get mean rating
+---
+- Qualitative evaluation
+  - Only on local device (not deployed with the app)
+  - Low amount of feedback - testing in Postman
+  - Not very intuitive, much novelty and unexpected recommendations
+  - Stick to category - RPGs recommend RPGs
+---
+
+![bg contain](assets/screenshots/ibnncf01.png)
 
 ---
 
-# Memory based CF
+![bg contain](assets/screenshots/ibnncf02.png)
 
-- Pipeline:
-  - Define own user by rating several games
-  - From ratings matrix (users x games) get submatrix with users that rated same games as me
-  - For each unrated game further filter submatrix to only users that rated also this unrated game
-  - From this submatrix find k most similar users to me according to game ratings (Pearson c.)
-  - Get mean rating of unrated game from these users
-  - Sort all games according to predicted rating, return top n
-- Specific examples of recommendations, e.g., in the form of screenshots of the developed application
-- Qualitative evaluation
+---
+
+![bg contain](assets/screenshots/ibnncf03.png)
+
+---
+
+![bg contain](assets/screenshots/ibnncf04.png)
+
+---
 - Encountered problems:
-  - a
-
+  - performance - not usable in real-time, not deployed
+  - implementation - several new technologies (also programming on Windows)
+  - memory - creation of ratings matrix on local device
 ---
 
 [//]: # (Part 3)
