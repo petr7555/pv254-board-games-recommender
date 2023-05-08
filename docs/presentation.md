@@ -34,10 +34,25 @@ section {
 ---
 [//]: # (Part 2)
 # TF-IDF
-- Description of the used recommender techniques, relation to standard techniques discussed during lectures (focus on the description of the overall pipeline, not on details of individual steps, particularly when using standard techniques like TF-IDF or cosine similarity)
-- Specific examples of recommendations, e.g., in the form of screenshots of the developed application
-- Results of the evaluation
-- Experience report (problems, mistakes, useful tools, ...)
+- most of relevant data are binary flags + some numerical values and Description
+- pipeline:
+  - convert binary flags and numerical values to text
+  - concatenate with description
+  - compute TF-IDF matrix
+  - compute cosine similarities
+  - choose rows with rated games
+  - sort games based on similarity score
+---
+- Problems:
+  - during development:
+    - converting everything to text (so that i could use library function)
+    - mapping index in matrix to index in database
+  - finished product:
+    - reimplementations
+
+- Evaluation:
+  - no exact metric, just by feedback
+  - mostly positive feedback, but problems when game has too many reimplementations (those are very similar, so they get high score)
 
 ---
 
