@@ -30,7 +30,9 @@ def get_value_columns_representation(row: pd.Series, value_columns: list[str], w
     )
 
 
-def get_binary_columns_representation(row: pd.Series, categorical_columns: list[str], weight: int) -> str:
+def get_binary_columns_representation(
+    row: pd.Series, categorical_columns: list[str], weight: int
+) -> str:
     return " ".join(
         [
             f"{get_column_name(column)}_1 " * weight
@@ -121,7 +123,9 @@ def create_similarity_matrix() -> None:
     print(f"Map from BGGId to index saved.")
 
 
-def get_tfidf_recommendations(games: dict[str, Game], ratings: list[GameRatingSimple]) -> list[Game]:
+def get_tfidf_recommendations(
+    games: dict[str, Game], ratings: list[GameRatingSimple]
+) -> list[Game]:
     similarity_matrix = np.load(similarity_matrix_path, mmap_mode="r")
 
     with open(map_from_bgg_id_to_index_path, "r") as f:
@@ -145,7 +149,9 @@ def get_tfidf_recommendations(games: dict[str, Game], ratings: list[GameRatingSi
         for index in sorted_indices_of_similarities_from_most_similar
     ]
     unique_bgg_ids_of_similar_games = list(dict.fromkeys(bgg_ids_of_similar_games))
-    ids_without_rated_games = [bgg_id for bgg_id in unique_bgg_ids_of_similar_games if bgg_id not in rated_ids]
+    ids_without_rated_games = [
+        bgg_id for bgg_id in unique_bgg_ids_of_similar_games if bgg_id not in rated_ids
+    ]
 
     sorted_games = [games[str(bgg_id)] for bgg_id in ids_without_rated_games]
     return sorted_games

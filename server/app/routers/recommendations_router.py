@@ -69,7 +69,9 @@ def get_recommendations_tfidf(request: PersonalizedRecommendationsRequest) -> Ga
 
 
 @router.post("/latent-factors")
-def get_recommendations_latent_factors(request: PersonalizedRecommendationsRequest) -> GamesResponse:
+def get_recommendations_latent_factors(
+    request: PersonalizedRecommendationsRequest,
+) -> GamesResponse:
     ratings = request.ratings
     offset = request.offset
     limit = request.limit
