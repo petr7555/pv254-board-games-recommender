@@ -3,3 +3,4 @@ __pycache__/
 
 data/**/*.csv
 data/bgg_data_documentation.txt
+data/**/*.zip
