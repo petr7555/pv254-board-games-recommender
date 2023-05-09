@@ -2,6 +2,7 @@
 theme: uncover
 paginate: true
 ---
+
 <style scoped>
 section {
   background: #ff6f00;
@@ -25,16 +26,75 @@ section {
 </style>
 
 [//]: # (Part 1)
-# Discussion of the topic, specific aspects of recommendations in the particular domain
+
+# Goal & Motivation
+
+- Develop a recommender system for board games
+	- users who like to play board games and want to try new ones
+- Possible monetization:
+	- e-shop
+	- referral links to e-shops
 
 ---
 
-# Description of the used data, some basic descriptive statistics of the data
+# Data
+
+- from [kaggle](https://www.kaggle.com/datasets/threnjen/board-games-database-from-boardgamegeek)
+- `games`, `mechanics`, `subcategories`, `themes`
+- `user_ratings`
+	- `BGGId` - BoardGameGeek game ID
+	- `Rating` - Raw rating given by user
+	- `Username` - User giving rating
+
+[//]: # (description of the used data, some basic descriptive statistics of the data)
 
 ---
+
+# Data preprocessing
+
+- removed duplicate ratings
+- removed users with less than 10 ratings
+- removed games with less than 10 ratings
+
+---
+
+# Data analysis
+
+- **18 340 284** user ratings
+- **224 557** users, **21 919** games, **157** mechanics, **217**&nbsp;themes, **10** subcategories
+- density of user ratings matrix: **0.37%**
+- ratings per user:
+	- average: **81.67**
+	- median: **39**
+	- maximum: **6478**
+- average rating: **7.10** (range **[0, 10]**)
+
+---
+
+![bg contain](../images/number_of_ratings_per_rating_value_histogram.png)
+
+---
+
+![bg contain](../images/number_of_users_per_number_of_ratings_histogram.png)
+
+---
+
+![bg contain](../images/average_rating_of_games_by_subcategory_bar_plot.png)
+
+---
+
+![bg contain](../images/number_of_ratings_by_subcategory_bar_plot.png)
+
+---
+
+
 [//]: # (Part 2)
+
 # TF-IDF
-- Description of the used recommender techniques, relation to standard techniques discussed during lectures (focus on the description of the overall pipeline, not on details of individual steps, particularly when using standard techniques like TF-IDF or cosine similarity)
+
+- Description of the used recommender techniques, relation to standard techniques discussed during lectures (focus on
+  the description of the overall pipeline, not on details of individual steps, particularly when using standard
+  techniques like TF-IDF or cosine similarity)
 - Specific examples of recommendations, e.g., in the form of screenshots of the developed application
 - Results of the evaluation
 - Experience report (problems, mistakes, useful tools, ...)
@@ -42,20 +102,29 @@ section {
 ---
 
 # Latent factors
-- Description of the used recommender techniques, relation to standard techniques discussed during lectures (focus on the description of the overall pipeline, not on details of individual steps, particularly when using standard techniques like TF-IDF or cosine similarity)
+
+- Description of the used recommender techniques, relation to standard techniques discussed during lectures (focus on
+  the description of the overall pipeline, not on details of individual steps, particularly when using standard
+  techniques like TF-IDF or cosine similarity)
 - Specific examples of recommendations, e.g., in the form of screenshots of the developed application
 - Results of the evaluation
 - Experience report (problems, mistakes, useful tools, ...)
+
 ---
 
 # Memory based CF
-- Description of the used recommender techniques, relation to standard techniques discussed during lectures (focus on the description of the overall pipeline, not on details of individual steps, particularly when using standard techniques like TF-IDF or cosine similarity)
+
+- Description of the used recommender techniques, relation to standard techniques discussed during lectures (focus on
+  the description of the overall pipeline, not on details of individual steps, particularly when using standard
+  techniques like TF-IDF or cosine similarity)
 - Specific examples of recommendations, e.g., in the form of screenshots of the developed application
 - Results of the evaluation
 - Experience report (problems, mistakes, useful tools, ...)
+
 ---
 
 [//]: # (Part 3)
+
 # User interface
 
 ---

@@ -15,8 +15,8 @@ See the app deployed [here](https://pv254-board-games-recommender.vercel.app/).
 ## Consultation 1 - April 4th 10:00
 
 - problem formulation, clarification of the purpose, for whom, why
-	- recommendation board games to users who like to play board games and want to try new ones
-- usage
+	- recommendation of board games to users who like to play board games and want to try new ones
+- planned usage
 	- website visitor rates 10 games and gets paged recommendations sorted from the most relevant
 	- on each page there will be 5 recommendations from each algorithm randomly interleaved
 	- for each recommendation there will be a button to reveal the algorithm used
@@ -32,13 +32,16 @@ See the app deployed [here](https://pv254-board-games-recommender.vercel.app/).
 				- Rating - Raw rating given by user
 				- Username - User giving rating
 	- data preprocessing:
-		- there were multiple ratings of the same game by some users - duplicates removed, only the latest rating kept (ratings don't have timestamps, so we assumed file `user_ratings.csv` is ordered chronologically and kept only the last occurence of `Username - BGGId` pair in the file) -> 32 687 ratings removed (0.17%)
+		- there were multiple ratings of the same game by some users - duplicates removed, only the latest rating kept (
+		  ratings don't have timestamps, so we assumed file `user_ratings.csv` is ordered chronologically and kept only
+		  the last occurence of `Username - BGGId` pair in the file) -> 32 687 ratings removed (0.17%)
 		- removed users with less than 10 ratings
 		- removed games with less than 10 ratings
 	- analysis (after data preprocessing):
 		- 18 340 284 user ratings
 		- 224 557 users
-		- 21 919 games, 217 themes, 10 subcategories (only 10 030 games (45.76%) belong to some subcategory)
+		- 21 919 games, 157 mechanics, 217 themes, 10 subcategories (only 10 030 games (45.76%) belong to some
+		  subcategory)
 		- density of user ratings matrix: 0.37%
 		- average number of ratings per user: 81.67
 		- median number of ratings per user: 39
@@ -62,13 +65,15 @@ See the app deployed [here](https://pv254-board-games-recommender.vercel.app/).
 		- most rated games
 		- random games
 - basic idea of evaluation approach
-	- because we are doing a prototype project, we will focus more on the manual evaluation and less on the technical evaluation
+	- because we are doing a prototype project, we will focus more on the manual evaluation and less on the technical
+	  evaluation
 	- technical (only for CF):
 		- data will be split into 80% and 20%
 			- at the very end, once we choose the best model, we will use the 20% of data for final evaluation
 			- 80% will be used for training
 				- it will be split into 80% and 20% using 5-fold cross-validation
-					- for models that require validation set (to stop the training) this 80 % will be split again into 80% and 20%
+					- for models that require validation set (to stop the training) this 80 % will be split again into
+					  80% and 20%
 		- used metric will be RMSE
 	- by real users’ happiness:
 		- we will give our system to real users and collect their feedback
