@@ -115,6 +115,7 @@ section {
 - no exact metric, just by feedback
 - mostly positive feedback, but problems when game has too many reimplementations
   (those are very similar, so they get high score)
+- examples of recommendations at the end
 
 ---
 
@@ -201,6 +202,7 @@ section {
 - item factors matrix is constant
 - least squares
 - simple approach (systems of equations)
+- examples of recommendations at the end
 
 ---
 
