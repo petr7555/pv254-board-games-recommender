@@ -145,14 +145,6 @@ section {
 
 ---
 
-![bg contain](assets/latent_factors/latent_factors_data_split_train.png)
-
----
-
-![bg contain](assets/latent_factors/latent_factors_data_split_validation.png)
-
----
-
 ## Pipeline II
 
 - use training set (user ratings) to **train** the model
