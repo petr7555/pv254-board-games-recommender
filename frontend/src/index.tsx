@@ -9,10 +9,11 @@ import getApiUrl from './utils/getApiUrl';
 axios.defaults.baseURL = getApiUrl();
 
 // Comment these lines to use real server even in development mode
-// if (process.env.NODE_ENV === 'development') {
-//   const worker = require('./mocks/browser').default;
-//   worker.start()
-// }
+if (process.env.NODE_ENV === 'development') {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
+  const worker = require('./mocks/browser').default;
+  worker.start();
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
