@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { DefaultBodyType, ResponseComposition, rest, RestContext, RestRequest } from 'msw';
 import Game from '../types/Game';
 import gamesOrderedByNameMock from './data/gamesOrderedByNameMock.json';
@@ -13,10 +14,14 @@ import {
   mostRatedRecommendationsEndpoint,
   randomRecommendationsEndpoint,
   tfidfRecommendationsEndpoint,
-  topRatedRecommendationsEndpoint
+  topRatedRecommendationsEndpoint,
 } from '../utils/constants';
 
-const getPagedGames = async (allGames: Game[], offset: number, limit: number): Promise<GamesResponse> => {
+const getPagedGames = async (
+  allGames: Game[],
+  offset: number,
+  limit: number,
+): Promise<GamesResponse> => {
   const games = allGames.slice(offset, offset + limit);
   const totalNumberOfGames = allGames.length;
   return { games, totalNumberOfGames };
@@ -27,9 +32,13 @@ const random = (seed: number) => {
   return x - Math.floor(x);
 };
 
-const getPersonalizedRecommendations = async (req: RestRequest, res: ResponseComposition<DefaultBodyType>, ctx: RestContext) => {
+const getPersonalizedRecommendations = async (
+  req: RestRequest,
+  res: ResponseComposition<DefaultBodyType>,
+  ctx: RestContext,
+) => {
   const { ratings, offset, limit }: PersonalizedRecommendationsRequest = await req.json();
-  let seed = ratings.reduce((acc, rating) => acc + (rating.gameId * rating.value), 0);
+  let seed = ratings.reduce((acc, rating) => acc + rating.gameId * rating.value, 0);
   const shuffledGames = [...gamesOrderedByNameMock].sort(() => 0.5 - random(seed++));
   const response = await getPagedGames(shuffledGames, offset, limit);
   return res(ctx.status(200), ctx.json(response));
@@ -68,7 +77,9 @@ const handlers = [
 
   rest.post(`*${gamesEndpoint}`, async (req, res, ctx) => {
     const { searchTerm, offset, limit }: GamesSearchRequest = await req.json();
-    const matchingGames = gamesOrderedByNameMock.filter(game => game.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    const matchingGames = gamesOrderedByNameMock.filter((game) =>
+      game.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
     const response = await getPagedGames(matchingGames, offset, limit);
 
     return res(ctx.status(200), ctx.json(response));

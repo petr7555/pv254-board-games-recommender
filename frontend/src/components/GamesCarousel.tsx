@@ -1,10 +1,10 @@
 import { FC, useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Alert, Box, IconButton, Stack, Typography } from '@mui/material';
-import GameCard from './GameCard';
-import Game from '../types/Game';
 import { ArrowBackIosNew as ArrowBack, ArrowForwardIos as ArrowForward } from '@mui/icons-material';
 import { useWindowSize } from 'usehooks-ts';
+import GameCard from './GameCard';
+import Game from '../types/Game';
 import GamesResponse from '../types/GamesResponse';
 import GameRatingSimple from '../types/GameRatingSimple';
 import { numberOfGamesPerFetch } from '../utils/constants';
@@ -14,7 +14,7 @@ type Props = {
   url: string;
   searchTerm?: string;
   ratings?: GameRatingSimple[];
-}
+};
 
 const GamesCarousel: FC<Props> = ({ title, url, searchTerm, ratings }) => {
   const { width } = useWindowSize();
@@ -31,26 +31,31 @@ const GamesCarousel: FC<Props> = ({ title, url, searchTerm, ratings }) => {
     setCarouselOffset(0);
   }, [searchTerm]);
 
-  const fetchGames = useCallback(async (offset: number) => {
-    const response = axios.post<GamesResponse>(url, {
-      offset,
-      limit: numberOfGamesPerFetch,
-      ...(searchTerm !== undefined && { searchTerm }),
-      ...(ratings && { ratings }),
-    });
-    const { data } = await response;
-    return data;
-  }, [ratings, searchTerm, url]);
-  
+  const fetchGames = useCallback(
+    async (offset: number) => {
+      const response = axios.post<GamesResponse>(url, {
+        offset,
+        limit: numberOfGamesPerFetch,
+        ...(searchTerm !== undefined && { searchTerm }),
+        ...(ratings && { ratings }),
+      });
+      const { data } = await response;
+      return data;
+    },
+    [ratings, searchTerm, url],
+  );
+
   useEffect(() => {
     setLoading(true);
     fetchGames(0)
       .then((data) => {
         setGames(data.games);
         setTotalNumberOfGames(data.totalNumberOfGames);
-      }).catch((err) => {
-      setError(err.message);
-    }).finally(() => setLoading(false));
+      })
+      .catch((err) => {
+        setError(err.message);
+      })
+      .finally(() => setLoading(false));
   }, [fetchGames]);
 
   const breakpoints = [700, 960, 1280, 1500];
@@ -69,7 +74,10 @@ const GamesCarousel: FC<Props> = ({ title, url, searchTerm, ratings }) => {
   };
 
   const showNextPage = () => {
-    const nextOffset = Math.min(carouselOffset + numberOfGamesPerPage, totalNumberOfGames - numberOfGamesPerPage);
+    const nextOffset = Math.min(
+      carouselOffset + numberOfGamesPerPage,
+      totalNumberOfGames - numberOfGamesPerPage,
+    );
     const needsToFetchMore = nextOffset + numberOfGamesPerPage > games.length;
     const canFetchMore = games.length < totalNumberOfGames;
     if (needsToFetchMore && canFetchMore) {
@@ -78,9 +86,11 @@ const GamesCarousel: FC<Props> = ({ title, url, searchTerm, ratings }) => {
         .then((data) => {
           setGames([...games, ...data.games]);
           setCarouselOffset(nextOffset);
-        }).catch((err) => {
-        setError(err.message);
-      }).finally(() => setLoading(false));
+        })
+        .catch((err) => {
+          setError(err.message);
+        })
+        .finally(() => setLoading(false));
     } else {
       setCarouselOffset(nextOffset);
     }
@@ -93,23 +103,21 @@ const GamesCarousel: FC<Props> = ({ title, url, searchTerm, ratings }) => {
       {title && <Typography variant="h4">{title}</Typography>}
       {error && <Alert severity="error">{error}</Alert>}
       {!error && (
-        <Stack spacing={2} direction="row" alignItems="center" width={'100%'} justifyContent="center">
+        <Stack spacing={2} direction="row" alignItems="center" width="100%" justifyContent="center">
           <IconButton size="large" onClick={showPrevPage} disabled={isFirstPage}>
-            <ArrowBack/>
+            <ArrowBack />
           </IconButton>
-          <Box sx={{ flexGrow: 1 }}/>
-          {loading && [...Array(numberOfGamesPerPage)].map((_, index) => (
-            <GameCard key={index}/>
-          ))}
+          <Box sx={{ flexGrow: 1 }} />
+          {/* This is fine, we are creating just skeletons */}
+          {/* eslint-disable-next-line react/no-array-index-key */}
+          {loading && [...Array(numberOfGamesPerPage)].map((_, index) => <GameCard key={index} />)}
           {!loading && currentGames.length === 0 && (
             <Typography variant="h6">No games found</Typography>
           )}
-          {!loading && currentGames.map((game) => (
-            <GameCard key={game.id} game={game}/>
-          ))}
-          <Box sx={{ flexGrow: 1 }}/>
+          {!loading && currentGames.map((game) => <GameCard key={game.id} game={game} />)}
+          <Box sx={{ flexGrow: 1 }} />
           <IconButton size="large" onClick={showNextPage} disabled={isLastPage || loading}>
-            <ArrowForward/>
+            <ArrowForward />
           </IconButton>
         </Stack>
       )}

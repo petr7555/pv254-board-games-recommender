@@ -4,4 +4,3 @@ type PagedRequest = {
 };
 
 export default PagedRequest;
-  

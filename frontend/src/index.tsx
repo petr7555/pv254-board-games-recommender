@@ -1,10 +1,10 @@
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
+import axios from 'axios';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import getApiUrl from './utils/getApiUrl';
-import axios from 'axios';
 
 axios.defaults.baseURL = getApiUrl();
 
@@ -14,13 +14,11 @@ axios.defaults.baseURL = getApiUrl();
 //   worker.start()
 // }
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <StrictMode>
-    <App/>
-  </StrictMode>
+    <App />
+  </StrictMode>,
 );
 
 // If you want your app to work offline and load faster, you can change

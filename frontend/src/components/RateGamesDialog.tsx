@@ -1,9 +1,9 @@
 import { Box, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
 import { FC, useState } from 'react';
-import SearchBox from './SearchBox';
-import GamesCarousel from './GamesCarousel';
 import { Close as CloseIcon } from '@mui/icons-material';
 import { useDebounce } from 'usehooks-ts';
+import SearchBox from './SearchBox';
+import GamesCarousel from './GamesCarousel';
 import { debounceDelay, gamesEndpoint } from '../utils/constants';
 
 type Props = {
@@ -21,7 +21,8 @@ const RateGamesDialog: FC<Props> = ({ open, onClose }) => {
 
   return (
     <Dialog open={open} fullScreen>
-      <DialogTitle>Rate games
+      <DialogTitle>
+        Rate games
         <IconButton
           onClick={handleClose}
           sx={{
@@ -30,13 +31,17 @@ const RateGamesDialog: FC<Props> = ({ open, onClose }) => {
             top: 8,
           }}
         >
-          <CloseIcon/>
+          <CloseIcon />
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        <Box sx={{ height: 10 }}/>
-        <SearchBox label={'Search all games by name'} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
-        <GamesCarousel url={gamesEndpoint} searchTerm={debouncedSearchTerm}/>
+        <Box sx={{ height: 10 }} />
+        <SearchBox
+          label="Search all games by name"
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+        />
+        <GamesCarousel url={gamesEndpoint} searchTerm={debouncedSearchTerm} />
       </DialogContent>
     </Dialog>
   );

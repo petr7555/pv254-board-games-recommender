@@ -6,4 +6,3 @@ type GamesResponse = {
 };
 
 export default GamesResponse;
-  

@@ -1,20 +1,23 @@
 import { BrowserRouter } from 'react-router-dom';
-import theme from './utils/theme';
 import { ThemeProvider, CssBaseline } from '@mui/material';
+import { FC } from 'react';
+import theme from './utils/theme';
 import Layout from './components/Layout';
 import RoutesSwitch from './components/RoutesSwitch';
 
-const App = () => (
-  <>
-    <CssBaseline/>
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Layout>
-          <RoutesSwitch/>
-        </Layout>
-      </BrowserRouter>
-    </ThemeProvider>
-  </>
-);
+const App: FC = () => {
+  return (
+    <>
+      <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Layout>
+            <RoutesSwitch />
+          </Layout>
+        </BrowserRouter>
+      </ThemeProvider>
+    </>
+  );
+};
 
 export default App;

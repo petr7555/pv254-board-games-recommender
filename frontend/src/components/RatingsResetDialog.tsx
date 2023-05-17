@@ -28,13 +28,13 @@ const RatingsResetDialog: FC<Props> = ({ open, onClose }) => {
     <Dialog open={open}>
       <DialogTitle>Reset ratings</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          Are you sure you want to reset all your ratings?
-        </DialogContentText>
+        <DialogContentText>Are you sure you want to reset all your ratings?</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel}>Cancel</Button>
-        <Button onClick={handleSave} variant={'contained'}>Reset</Button>
+        <Button onClick={handleSave} variant="contained">
+          Reset
+        </Button>
       </DialogActions>
     </Dialog>
   );

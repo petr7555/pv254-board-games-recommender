@@ -12,5 +12,3 @@ type Game = {
 };
 
 export default Game;
-  
-  

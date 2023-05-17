@@ -24,13 +24,13 @@ const SearchBox: FC<Props> = ({ label, searchTerm, setSearchTerm }) => {
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
-            <SearchIcon/>
+            <SearchIcon />
           </InputAdornment>
         ),
         endAdornment: (
           <InputAdornment position="end">
             <IconButton onClick={resetSearchTerm}>
-              <CloseIcon/>
+              <CloseIcon />
             </IconButton>
           </InputAdornment>
         ),

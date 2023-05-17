@@ -61,6 +61,9 @@
   "devDependencies": {
     "babel-plugin-direct-import": "^1.0.0",
     "customize-cra": "^1.0.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "msw": "^1.2.1",
     "react-app-rewired": "^2.2.1"
   },

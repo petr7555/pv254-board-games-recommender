@@ -1,16 +1,16 @@
 import {
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   Rating,
-  Button,
 } from '@mui/material';
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { FC, SyntheticEvent, useEffect, useState } from 'react';
+import { useLiveQuery } from 'dexie-react-hooks';
 import Game from '../types/Game';
 import { db } from '../db/db';
-import { useLiveQuery } from 'dexie-react-hooks';
 import { maxRatingValue } from '../utils/constants';
 
 type Props = {
@@ -44,7 +44,7 @@ const RatingDialog: FC<Props> = ({ game, open, onClose }) => {
     });
   };
 
-  const onRatingChange = (event: ChangeEvent<{}>, newValue: number | null) => {
+  const onRatingChange = (event: SyntheticEvent, newValue: number | null) => {
     if (newValue !== null) {
       setNewRatingValue(newValue);
     }
@@ -54,18 +54,14 @@ const RatingDialog: FC<Props> = ({ game, open, onClose }) => {
     <Dialog open={open}>
       <DialogTitle>Rate {game.name}</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          How much did you enjoy {game.name}?
-        </DialogContentText>
-        <Rating
-          value={newRatingValue}
-          onChange={onRatingChange}
-          max={maxRatingValue}
-        />
+        <DialogContentText>How much did you enjoy {game.name}?</DialogContentText>
+        <Rating value={newRatingValue} onChange={onRatingChange} max={maxRatingValue} />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel}>Cancel</Button>
-        <Button onClick={handleSave} variant={'contained'}>Save</Button>
+        <Button onClick={handleSave} variant="contained">
+          Save
+        </Button>
       </DialogActions>
     </Dialog>
   );

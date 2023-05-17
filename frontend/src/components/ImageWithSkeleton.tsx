@@ -12,12 +12,17 @@ const ImageWithSkeleton: FC<Props> = ({ image, alt, height }) => {
 
   return (
     <>
-      {!showImage && <Skeleton variant="rectangular" height={height} width={'100%'}/>}
+      {!showImage && <Skeleton variant="rectangular" height={height} width="100%" />}
       <img
         alt={alt}
         src={image}
         height={height}
-        style={{ display: showImage ? 'block' : 'none', objectFit: 'cover', width: '100%', height: '100%' }}
+        style={{
+          display: showImage ? 'block' : 'none',
+          objectFit: 'cover',
+          width: '100%',
+          height: '100%',
+        }}
         onLoad={() => setShowImage(true)}
       />
     </>

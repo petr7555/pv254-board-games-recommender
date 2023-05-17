@@ -6,11 +6,7 @@ type Props = {
 };
 
 const Nonselectable: FC<Props> = ({ children }) => {
-  return (
-    <Box sx={{ userSelect: 'none' }}>
-      {children}
-    </Box>
-  );
+  return <Box sx={{ userSelect: 'none' }}>{children}</Box>;
 };
 
 export default Nonselectable;

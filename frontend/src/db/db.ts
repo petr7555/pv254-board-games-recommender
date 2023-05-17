@@ -1,7 +1,6 @@
 import Dexie, { Table } from 'dexie';
 import GameRating from '../types/GameRating';
 
-
 export class MySubClassedDexie extends Dexie {
   ratings!: Table<GameRating>;
 

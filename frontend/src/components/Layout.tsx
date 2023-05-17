@@ -9,7 +9,7 @@ type Props = {
 const Layout: FC<Props> = ({ children }) => {
   return (
     <>
-      <NavigationBar/>
+      <NavigationBar />
       <Container
         maxWidth="lg"
         component="main"

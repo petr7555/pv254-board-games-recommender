@@ -1,6 +1,16 @@
 import { FC, useState } from 'react';
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Skeleton,
+  Stack,
+  Typography,
+} from '@mui/material';
 import Game from '../types/Game';
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Skeleton, Stack, Typography, } from '@mui/material';
 import { ReactComponent as MinAgeIcon } from '../icons/minAgeIcon.svg';
 import { ReactComponent as NumPlayersIcon } from '../icons/numPlayersIcon.svg';
 import { ReactComponent as PlaytimeIcon } from '../icons/playtimeIcon.svg';
@@ -30,16 +40,21 @@ const GameCard: FC<Props> = ({ game }) => {
   };
 
   if (!game) {
-    return (
-      <Skeleton variant="rectangular" sx={{ minWidth: cardMinWidth }} height={cardHeight}/>
-    );
+    return <Skeleton variant="rectangular" sx={{ minWidth: cardMinWidth }} height={cardHeight} />;
   }
 
   return (
     <>
-      <RatingDialog game={game} open={dialogOpen} onClose={closeDialog}/>
-      <Card sx={{ minWidth: cardMinWidth, minHeight: cardHeight, display: 'flex', flexDirection: 'column' }}>
-        {!showImage && <Skeleton variant="rectangular" height={imageHeight}/>}
+      <RatingDialog game={game} open={dialogOpen} onClose={closeDialog} />
+      <Card
+        sx={{
+          minWidth: cardMinWidth,
+          minHeight: cardHeight,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {!showImage && <Skeleton variant="rectangular" height={imageHeight} />}
         <CardMedia
           component="img"
           alt={game.name}
@@ -48,7 +63,7 @@ const GameCard: FC<Props> = ({ game }) => {
           sx={{ display: showImage ? 'block' : 'none' }}
           onLoad={() => setShowImage(true)}
         />
-        <Box sx={{ flexGrow: 1 }}/>
+        <Box sx={{ flexGrow: 1 }} />
         <CardContent>
           <Stack direction="column" spacing={1}>
             <Typography gutterBottom variant="h5" component="div">
@@ -63,18 +78,35 @@ const GameCard: FC<Props> = ({ game }) => {
             <Typography variant="body1" color="text.secondary">
               Difficulty: {Math.round(game.difficulty * 10) / 10} / 5
             </Typography>
-            <LabeledIcon icon={MinAgeIcon} label={`${game.minAge}+`}/>
-            <LabeledIcon icon={NumPlayersIcon} label={`${game.minPlayers} - ${game.maxPlayers} players`}/>
-            <LabeledIcon icon={PlaytimeIcon} label={`${game.playtime} minutes`}/>
+            <LabeledIcon icon={MinAgeIcon} label={`${game.minAge}+`} />
+            <LabeledIcon
+              icon={NumPlayersIcon}
+              label={`${game.minPlayers} - ${game.maxPlayers} players`}
+            />
+            <LabeledIcon icon={PlaytimeIcon} label={`${game.playtime} minutes`} />
           </Stack>
         </CardContent>
-        <Box sx={{ flexGrow: 1 }}/>
+        <Box sx={{ flexGrow: 1 }} />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button size="small" variant="outlined"
-                  href={getBoardGamesGeekUrl(game.id)} target={'_blank'}>Details</Button>
-          <Button size="small" variant="outlined"
-                  href={getAmazonSearchUrl(game.name)} target={'_blank'}>Buy</Button>
-          <Button size="small" variant="outlined" onClick={openDialog} sx={{ ml: 1 }}>Rate</Button>
+          <Button
+            size="small"
+            variant="outlined"
+            href={getBoardGamesGeekUrl(game.id)}
+            target="_blank"
+          >
+            Details
+          </Button>
+          <Button
+            size="small"
+            variant="outlined"
+            href={getAmazonSearchUrl(game.name)}
+            target="_blank"
+          >
+            Buy
+          </Button>
+          <Button size="small" variant="outlined" onClick={openDialog} sx={{ ml: 1 }}>
+            Rate
+          </Button>
         </CardActions>
       </Card>
     </>

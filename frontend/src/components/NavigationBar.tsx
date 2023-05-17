@@ -10,14 +10,16 @@ const pages = [
   },
   {
     name: 'My ratings',
-    path: myRatingsPath
+    path: myRatingsPath,
   },
 ];
 
 const NavigationBar: FC = () => {
   const location = useLocation();
 
-  const [selectedTab, setSelectedTab] = useState(pages.findIndex(({ path }) => path === location.pathname));
+  const [selectedTab, setSelectedTab] = useState(
+    pages.findIndex(({ path }) => path === location.pathname),
+  );
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setSelectedTab(newValue);
@@ -25,10 +27,15 @@ const NavigationBar: FC = () => {
 
   return (
     <AppBar position="sticky">
-      <Tabs value={selectedTab} onChange={handleChange}
-            indicatorColor="secondary" textColor="inherit" variant="fullWidth">
+      <Tabs
+        value={selectedTab}
+        onChange={handleChange}
+        indicatorColor="secondary"
+        textColor="inherit"
+        variant="fullWidth"
+      >
         {pages.map(({ name, path }) => (
-          <Tab key={name} label={name} component={Link} to={path}/>
+          <Tab key={name} label={name} component={Link} to={path} />
         ))}
       </Tabs>
     </AppBar>

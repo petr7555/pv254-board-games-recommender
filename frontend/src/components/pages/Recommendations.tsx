@@ -5,8 +5,9 @@ import PersonalizedGamesCarousel from '../PersonalizedGamesCarousel';
 import {
   latentFactorsRecommendationsEndpoint,
   mostRatedRecommendationsEndpoint,
-  randomRecommendationsEndpoint, tfidfRecommendationsEndpoint,
-  topRatedRecommendationsEndpoint
+  randomRecommendationsEndpoint,
+  tfidfRecommendationsEndpoint,
+  topRatedRecommendationsEndpoint,
 } from '../../utils/constants';
 
 const Recommendations: FC = () => {
@@ -14,11 +15,14 @@ const Recommendations: FC = () => {
 
   return (
     <>
-      <PersonalizedGamesCarousel title={'TF-IDF'} url={tfidfRecommendationsEndpoint}/>
-      <PersonalizedGamesCarousel title={'Latent factors'} url={latentFactorsRecommendationsEndpoint}/>
-      <GamesCarousel title={'Top-rated'} url={topRatedRecommendationsEndpoint}/>
-      <GamesCarousel title={'Most rated'} url={mostRatedRecommendationsEndpoint}/>
-      <GamesCarousel title={'Random picks'} url={randomRecommendationsEndpoint}/>
+      <PersonalizedGamesCarousel title="TF-IDF" url={tfidfRecommendationsEndpoint} />
+      <PersonalizedGamesCarousel
+        title="Latent factors"
+        url={latentFactorsRecommendationsEndpoint}
+      />
+      <GamesCarousel title="Top-rated" url={topRatedRecommendationsEndpoint} />
+      <GamesCarousel title="Most rated" url={mostRatedRecommendationsEndpoint} />
+      <GamesCarousel title="Random picks" url={randomRecommendationsEndpoint} />
     </>
   );
 };

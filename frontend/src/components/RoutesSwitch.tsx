@@ -6,9 +6,9 @@ import { myRatingsPath, recommendationsPath } from '../utils/constants';
 
 const RoutesSwitch: FC = () => (
   <Routes>
-    <Route path={recommendationsPath} element={<Recommendations/>}/>
-    <Route path={myRatingsPath} element={<MyRatings/>}/>
-    <Route path="*" element={<Navigate replace to={recommendationsPath}/>}/>
+    <Route path={recommendationsPath} element={<Recommendations />} />
+    <Route path={myRatingsPath} element={<MyRatings />} />
+    <Route path="*" element={<Navigate replace to={recommendationsPath} />} />
   </Routes>
 );
 

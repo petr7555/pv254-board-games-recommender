@@ -5,4 +5,3 @@ type GamesSearchRequest = PagedRequest & {
 };
 
 export default GamesSearchRequest;
-  
