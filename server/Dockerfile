@@ -20,4 +20,11 @@ RUN poetry install --only main --no-root --no-cache --no-interaction
 
 COPY app ./app
 
+# Generate files which are too large to be stored in git
+COPY data/cleaned/games.csv data/cleaned/games.csv
+COPY data/cleaned/mechanics.csv data/cleaned/mechanics.csv
+COPY data/cleaned/subcategories.csv data/cleaned/subcategories.csv
+COPY data/cleaned/themes.csv data/cleaned/themes.csv
+RUN poetry run create-similarity-matrix
+
 CMD ["poetry", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]

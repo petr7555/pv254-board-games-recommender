@@ -1,6 +1,16 @@
 __pycache__/
 .ipynb_checkpoints
 
+# Exclude data
 data/**/*.csv
 data/bgg_data_documentation.txt
 data/**/*.zip
+# apart from these, which are needed to generate similarity matrix during Docker image build
+!data/cleaned/games.csv
+!data/cleaned/mechanics.csv
+!data/cleaned/subcategories.csv
+!data/cleaned/themes.csv
+
+# Too large to be stored in git
+app/db/similarity_matrix.npy
+app/db/map_from_bgg_id_to_index.json
