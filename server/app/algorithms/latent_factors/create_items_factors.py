@@ -8,11 +8,11 @@ from numpy import sqrt
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 
-from app.utils.universal_path import universal_path
+from app.utils.relative_path_from_file import relative_path_from_file
 
-cleaned_data_dir = universal_path("../../../data/cleaned")
-user_ratings_path = os.path.join(cleaned_data_dir, "user_ratings.csv")
-items_factors_output_path = universal_path("../../db/items_factors.pkl")
+data_dir = relative_path_from_file(__file__, "../../../data/cleaned")
+user_ratings_path = os.path.join(data_dir, "user_ratings.csv")
+items_factors_output_path = relative_path_from_file(__file__, "../../db/items_factors.pkl")
 
 
 def rmse(p: pd.DataFrame, q: pd.DataFrame, user_ratings: pd.DataFrame) -> float:
@@ -68,7 +68,7 @@ def split_into_batches(df: pd.DataFrame, batch_size: int) -> list[pd.DataFrame]:
     batches = []
     num_batches = math.ceil(len(df) / batch_size)
     for i in range(num_batches):
-        batches.append(df.iloc[i * batch_size : (i + 1) * batch_size])
+        batches.append(df.iloc[i * batch_size: (i + 1) * batch_size])
     return batches
 
 
