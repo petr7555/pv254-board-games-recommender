@@ -2,8 +2,8 @@ import random
 
 from fastapi import APIRouter
 
-from app.algorithms.latent_factors import get_latent_factors_recommendations
-from app.algorithms.tfidf import get_tfidf_recommendations
+from app.algorithms.latent_factors.latent_factors import get_latent_factors_recommendations
+from app.algorithms.tfidf.tfidf import get_tfidf_recommendations
 from app.types.shared_types import PagedRequest, GamesResponse, GameRatingSimple
 from app.utils.get_paged_games import get_paged_games
 from app.utils.load_factors import load_factors

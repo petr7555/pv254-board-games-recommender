@@ -6,7 +6,7 @@ import numpy as np
 from app.types.shared_types import Game, GameRatingSimple
 from app.utils.relative_path_from_file import relative_path_from_file
 
-db_dir = relative_path_from_file(__file__, "../db")
+db_dir = relative_path_from_file(__file__, "../../db")
 similarity_matrix_path = os.path.join(db_dir, "similarity_matrix.npy")
 map_from_bgg_id_to_index_path = os.path.join(db_dir, "map_from_bgg_id_to_index.json")
 

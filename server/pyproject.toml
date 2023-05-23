@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{ include = "app" }]
 
 [tool.poetry.scripts]
-create-similarity-matrix = "app.algorithms.create_similarity_matrix:run"
+create-similarity-matrix = "app.algorithms.tfidf.create_similarity_matrix:run"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"

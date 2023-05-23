@@ -10,9 +10,9 @@ from sklearn.model_selection import train_test_split
 
 from app.utils.universal_path import universal_path
 
-cleaned_data_dir = universal_path("../../data/cleaned")
+cleaned_data_dir = universal_path("../../../data/cleaned")
 user_ratings_path = os.path.join(cleaned_data_dir, "user_ratings.csv")
-items_factors_output_path = universal_path("../db/items_factors.pkl")
+items_factors_output_path = universal_path("../../db/items_factors.pkl")
 
 
 def rmse(p: pd.DataFrame, q: pd.DataFrame, user_ratings: pd.DataFrame) -> float:
@@ -187,4 +187,5 @@ def create_items_factors() -> None:
 
 
 # Run this to generate items factors matrix
-# create_items_factors()
+if __name__ == "__main__":
+    create_items_factors()

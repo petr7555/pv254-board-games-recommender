@@ -9,8 +9,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 from app.utils.relative_path_from_file import relative_path_from_file
 
-data_dir = relative_path_from_file(__file__, "../../data/cleaned")
-db_dir = relative_path_from_file(__file__, "../db")
+data_dir = relative_path_from_file(__file__, "../../../data/cleaned")
+db_dir = relative_path_from_file(__file__, "../../db")
 similarity_matrix_path = os.path.join(db_dir, "similarity_matrix.npy")
 map_from_bgg_id_to_index_path = os.path.join(db_dir, "map_from_bgg_id_to_index.json")
 
