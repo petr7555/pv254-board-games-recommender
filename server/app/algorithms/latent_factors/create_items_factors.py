@@ -36,8 +36,11 @@ def train_val_test_split(
     assert sum(ratios) == 1
 
     train, val_test = train_test_split(
-        df, train_size=ratios[0], test_size=ratios[1] + ratios[2], stratify=df[[stratify_col_name]],
-        random_state=0
+        df,
+        train_size=ratios[0],
+        test_size=ratios[1] + ratios[2],
+        stratify=df[[stratify_col_name]],
+        random_state=0,
     )
 
     val_size = ratios[1] / (ratios[1] + ratios[2])
@@ -69,7 +72,7 @@ def split_into_batches(df: pd.DataFrame, batch_size: int) -> list[pd.DataFrame]:
     batches = []
     num_batches = math.ceil(len(df) / batch_size)
     for i in range(num_batches):
-        batches.append(df.iloc[i * batch_size: (i + 1) * batch_size])
+        batches.append(df.iloc[i * batch_size : (i + 1) * batch_size])
     return batches
 
 
