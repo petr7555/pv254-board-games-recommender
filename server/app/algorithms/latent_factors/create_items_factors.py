@@ -4,7 +4,6 @@ import time
 
 import numpy as np
 import pandas as pd
-from numpy import sqrt
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 
@@ -13,6 +12,7 @@ from app.utils.relative_path_from_file import relative_path_from_file
 data_dir = relative_path_from_file(__file__, "../../../data/cleaned")
 user_ratings_path = os.path.join(data_dir, "user_ratings.csv")
 items_factors_output_path = relative_path_from_file(__file__, "../../db/items_factors.pkl")
+users_factors_output_path = relative_path_from_file(__file__, "../../db/users_factors.pkl")
 
 
 def rmse(p: pd.DataFrame, q: pd.DataFrame, user_ratings: pd.DataFrame) -> float:
@@ -93,7 +93,7 @@ def fit(
     unique_items: np.ndarray,
     *,
     k_latent_factors: int,
-    n_epochs: int,
+    max_epochs: int,
     learning_rate: float,
     reg: float,
     batch_size: int,
@@ -109,12 +109,12 @@ def fit(
     batches = split_into_batches(x_train, batch_size)
     print(f"Splitting took {time.time() - batch_split_start_time:.1f} seconds")
 
-    for epoch in range(n_epochs):
+    for epoch in range(max_epochs):
         print(f"{10 * '='} [ Epoch #{epoch + 1} ] {10 * '='}")
         epoch_start_time = time.time()
 
         for batch_number, batch in enumerate(batches):
-            if batch_number % (len(batches) // 5) == 0:
+            if len(batches) // 5 > 0 and batch_number % (len(batches) // 5) == 0:
                 print(f"Batch #{batch_number + 1}")
 
             user_ids: pd.Series = batch["Username"]
@@ -177,7 +177,7 @@ def create_items_factors() -> None:
         unique_users,
         unique_games,
         k_latent_factors=3,
-        n_epochs=30,
+        max_epochs=30,
         learning_rate=0.005,
         reg=0.02,
         batch_size=64,
@@ -188,6 +188,7 @@ def create_items_factors() -> None:
 
     print("Saving latent factors...")
     q.to_pickle(items_factors_output_path)
+    q.to_pickle(users_factors_output_path)
     print(f"Latent factors saved in {items_factors_output_path}")
 
 
