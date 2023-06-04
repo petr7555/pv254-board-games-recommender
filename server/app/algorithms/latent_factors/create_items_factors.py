@@ -25,7 +25,7 @@ def rmse(p: pd.DataFrame, q: pd.DataFrame, user_ratings: pd.DataFrame) -> float:
     actual_ratings: np.ndarray = user_ratings["Rating"].values
     predicted_ratings: np.ndarray = np.einsum("ij, ij->i", users_factors, items_factors)
 
-    error: float = sqrt(mean_squared_error(predicted_ratings, actual_ratings))
+    error: float = mean_squared_error(actual_ratings, predicted_ratings, squared=False)
     return error
 
 
@@ -49,6 +49,7 @@ def train_val_test_split(
         train_size=val_size,
         test_size=1 - val_size,
         stratify=val_test[[stratify_col_name]],
+        random_state=0,
     )
 
     return train, val, test
