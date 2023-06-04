@@ -32,14 +32,15 @@ See the app deployed [here](https://pv254-board-games-recommender.vercel.app/).
 				- Rating - Raw rating given by user
 				- Username - User giving rating
 	- data preprocessing:
+		- removed NaNs from usernames - 63 ratings removed
 		- there were multiple ratings of the same game by some users - duplicates removed, only the latest rating kept (
 		  ratings don't have timestamps, so we assumed file `user_ratings.csv` is ordered chronologically and kept only
 		  the last occurence of `Username - BGGId` pair in the file) -> 32 687 ratings removed (0.17%)
 		- removed users with less than 10 ratings
 		- removed games with less than 10 ratings
 	- analysis (after data preprocessing):
-		- 18 340 284 user ratings
-		- 224 557 users
+		- 18 340 221 user ratings
+		- 224 556 users
 		- 21 919 games, 157 mechanics, 217 themes, 10 subcategories (only 10 030 games (45.76%) belong to some
 		  subcategory)
 		- density of user ratings matrix: 0.37%
