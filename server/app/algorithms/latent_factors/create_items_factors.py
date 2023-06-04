@@ -11,8 +11,8 @@ from app.utils.relative_path_from_file import relative_path_from_file
 
 data_dir = relative_path_from_file(__file__, "../../../data/cleaned")
 user_ratings_path = os.path.join(data_dir, "user_ratings.csv")
-items_factors_output_path = relative_path_from_file(__file__, "../../db/items_factors.pkl")
 users_factors_output_path = relative_path_from_file(__file__, "../../db/users_factors.pkl")
+items_factors_output_path = relative_path_from_file(__file__, "../../db/items_factors.pkl")
 
 
 def rmse(p: pd.DataFrame, q: pd.DataFrame, user_ratings: pd.DataFrame) -> float:
@@ -187,8 +187,8 @@ def create_items_factors() -> None:
     print(f"Test error: {rmse(p, q, x_test)}")
 
     print("Saving latent factors...")
+    p.to_pickle(users_factors_output_path)
     q.to_pickle(items_factors_output_path)
-    q.to_pickle(users_factors_output_path)
     print(f"Latent factors saved in {items_factors_output_path}")
 
 
