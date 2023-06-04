@@ -189,7 +189,7 @@ def create_items_factors() -> None:
     print("Saving latent factors...")
     p.to_pickle(users_factors_output_path)
     q.to_pickle(items_factors_output_path)
-    print(f"Latent factors saved in {items_factors_output_path}")
+    print(f"Latent factors saved in {items_factors_output_path} and {users_factors_output_path}")
 
 
 # Run this to generate items factors matrix
