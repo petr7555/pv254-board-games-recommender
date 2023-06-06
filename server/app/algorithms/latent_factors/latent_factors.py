@@ -10,10 +10,10 @@ def predict_ratings(user_factors: np.ndarray, items_factors: pd.DataFrame) -> pd
 
 
 def get_x_y(
-    ratings: list[GameRatingSimple], items_factors: pd.DataFrame
-) -> tuple[np.ndarray, list[int]]:
+    items_factors: pd.DataFrame, ratings: list[GameRatingSimple]
+) -> tuple[pd.DataFrame, list[int]]:
     game_ids = [rating.gameId for rating in ratings]
-    coefficients = items_factors.loc[game_ids, :].values
+    coefficients = items_factors.loc[game_ids]
     ratings_values = [rating.value for rating in ratings]
     return coefficients, ratings_values
 
@@ -21,7 +21,7 @@ def get_x_y(
 def get_user_factors_least_squares(
     ratings: list[GameRatingSimple], items_factors: pd.DataFrame
 ) -> np.ndarray:
-    x, y = get_x_y(ratings, items_factors)
+    x, y = get_x_y(items_factors, ratings)
     return linalg.lstsq(x, y, rcond=None)[0]
 
 
